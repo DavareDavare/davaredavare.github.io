@@ -6,6 +6,11 @@ body{
     color: white;
 }
 
+html
+{
+    height: 100%;
+}
+
 .content
 {
     margin-left: 200px;
@@ -13,11 +18,6 @@ body{
     height: 100%;
     display: flex;
     align-content: center;
-}
-
-html
-{
-    height: 100%;
 }
 
 .about-container {
