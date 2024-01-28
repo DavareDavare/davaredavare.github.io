@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Number Guessing Game</h1>
+<p>Guess the number between 1 and 100:</p>
+
+<input type="number" id="guessInput" min="1" max="100">
+<button onclick="checkGuess()">Submit Guess</button>
+
+<p id="result"></p>
+<p id="attempts">Attempts left: 10</p>
+
+<script>
+  // Generate a random number between 1 and 100
+  const secretNumber = Math.floor(Math.random() * 100) + 1;
+  
+  let attemptsLeft = 10;
+
+  function checkGuess() {
+    const guessInput = document.getElementById('guessInput');
+    const resultMessage = document.getElementById('result');
+    const attemptsMessage = document.getElementById('attempts');
+
+    const userGuess = parseInt(guessInput.value);
+
+    if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+      resultMessage.textContent = 'Please enter a valid number between 1 and 100.';
+    } else {
+      attemptsLeft--;
+
+      if (userGuess === secretNumber) {
+        resultMessage.textContent = 'Congratulations! You guessed the correct number!';
+        attemptsMessage.textContent = '';
+        guessInput.disabled = true;
+      } else if(userGuess<secretNumber) {
+        resultMessage.textContent = `Zahl zu Klein. ${attemptsLeft} attempts left.`;
+      }
+      else if(userGuess>secretNumber)
+      {
+        resultMessage.textContent = `Zahl zu Groß. ${attemptsLeft} attempts left.`;
+      }
+      else
+      {
+        resultMessage.textContent = `Wrong guess. ${attemptsLeft} attempts left.`;
+
+        if (attemptsLeft === 0) {
+          resultMessage.textContent = `Sorry, you're out of attempts. The correct number was ${secretNumber}.`;
+          attemptsMessage.textContent = '';
+          guessInput.disabled = true;
+        }
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
