@@ -4,13 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Number Guessing Game</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin-top: 50px;
-    }
-  </style>
+  <link rel="stylesheet" href="../Styles/zahlenraten.css">
 </head>
 <body>
 
@@ -23,6 +17,10 @@
 <p id="result"></p>
 <p id="attempts">Attempts left: 10</p>
 
+<button onclick="window.location.reload();" hidden="hidden" id="retry">Retry?</button>
+
+<a href="../index.html">Back to the Portfolio</a>
+
 <script>
   // Generate a random number between 1 and 100
   const secretNumber = Math.floor(Math.random() * 100) + 1;
@@ -33,6 +31,7 @@
     const guessInput = document.getElementById('guessInput');
     const resultMessage = document.getElementById('result');
     const attemptsMessage = document.getElementById('attempts');
+    const retrybutton = document.getElementById('retry');
 
     const userGuess = parseInt(guessInput.value);
 
@@ -44,23 +43,25 @@
       if (userGuess === secretNumber) {
         resultMessage.textContent = 'Congratulations! You guessed the correct number!';
         attemptsMessage.textContent = '';
-        guessInput.disabled = true;
-      } else if(userGuess<secretNumber) {
-        resultMessage.textContent = `Zahl zu Klein. ${attemptsLeft} attempts left.`;
+        guessInput.disabled = visible;
+
+      } 
+      else if (attemptsLeft <= 0)
+      {
+        resultMessage.textContent = `Sorry, you're out of attempts. The correct number was ${secretNumber}.`;
+          attemptsMessage.textContent = '';
+          guessInput.disabled = true;
+          retrybutton.removeAttribute("hidden");
+      }else if(userGuess<secretNumber) {
+        resultMessage.textContent = `Number too Small. ${attemptsLeft} attempts left.`;
       }
       else if(userGuess>secretNumber)
       {
-        resultMessage.textContent = `Zahl zu Groß. ${attemptsLeft} attempts left.`;
+        resultMessage.textContent = `Number too Big. ${attemptsLeft} attempts left.`;
       }
       else
       {
         resultMessage.textContent = `Wrong guess. ${attemptsLeft} attempts left.`;
-
-        if (attemptsLeft === 0) {
-          resultMessage.textContent = `Sorry, you're out of attempts. The correct number was ${secretNumber}.`;
-          attemptsMessage.textContent = '';
-          guessInput.disabled = true;
-        }
       }
     }
   }
