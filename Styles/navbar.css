@@ -1,3 +1,4 @@
+
 body
 {
     font-family: Arial, sans-serif;
@@ -68,21 +69,6 @@ body
     color: black;
   }
   
-  .header {
-    padding-top: 10px;
-    width: 200px;
-    height: 300px;
-    background-color: black;
-    margin-bottom: 10vh;
-    -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
-    color: white;
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center;
-    justify-content: center;
-  }
-  
   .items {
     margin-bottom: 5vh;
   }
@@ -99,5 +85,61 @@ body
   
   .contacts {
     border-bottom: solid 1px rgb(63, 63, 63, 0.5);
+  }
+
+@media (min-width: 1651px)
+{   
+  .header {
+    padding-top: 10px;
+    width: 200px;
+    height: 300px;
+    background-color: black;
+    margin-bottom: 10vh;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center;
+    justify-content: center;
+  }
+}
+  @media (min-width: 1300px) and (max-width: 1650px)
+  {
+    .header {
+      padding-top: 10px;
+      width: 200px;
+      height: 300px;
+      background-color: black;
+      -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      flex-direction: column; /* Stack items vertically */
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 1299px)
+  {
+    .header {
+      padding-top: 10px;
+      width: 200px;
+      height: 300px;
+      background-color: black;
+      -webkit-box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+      box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.5);
+      color: white;
+      display: flex;
+      flex-direction: column; /* Stack items vertically */
+      align-items: center;
+      justify-content: center;
+    }
+
+    .links
+    {
+      visibility: hidden;
+    }
   }
   
