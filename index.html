@@ -123,7 +123,7 @@
         <img src="art.png" class="six" height="25%" width="25%">
     </div>
     <div class="sound-slider">
-        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5"> <!-- Set the initial value to 0.5 -->
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
     </div>
     <!-- Navbar at the bottom -->
     <div class="navbar">
@@ -145,12 +145,10 @@
         const volumeSlider = document.getElementById('volumeSlider');
         const spinningElement = document.querySelector('.six');
 
-        // Add the spinning class to the element with class "six"
         spinningElement.classList.add('spin');
 
-        // Set the video volume to 50% on initial render
-        video.volume = 0.5;
-        volumeSlider.value = 0.5;  // Set the slider's value to 50% as well
+        video.volume = 0.0;
+        volumeSlider.value = 0.0;
 
         volumeSlider.addEventListener('input', (event) => {
             video.volume = event.target.value;
