@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おやすみ</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; /* Ensures the video covers the viewport */
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 1; /* Ensures the text is on top of the video */
+        }
+
+        .sound-slider {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 2; /* Ensures the slider is above the text and video */
+        }
+
+        .sound-slider input[type="range"] {
+            width: 100px;
+        }
+
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; /* Ensures it does not block interaction */
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
+        }
+
+        /* Spinning Animation */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 50s linear infinite; /* Spins the element every 50 seconds indefinitely */
+        }
+
+        /* Updated Navbar styles with farther starting fade */
+        .navbar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8) 15%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0)); /* Start fading further away */
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px 0;
+            z-index: 2; /* Ensures navbar is above the video */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1); 
+            border-radius: 5px;
+        }
+
+        /* New Top-left text styles */
+        .top-left-text {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 2; /* Ensures the text is above the video */
+        }
+    </style>
+</head>
+<body>
+    <video id="video" autoplay loop>
+        <source src="./6.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="vignette"></div>
+    <div class="text-overlay">
+        <img src="art.png" class="six" height="25%" width="25%">
+    </div>
+    <div class="sound-slider">
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5"> <!-- Set the initial value to 0.5 -->
+    </div>
+    <!-- Navbar at the bottom -->
+    <div class="navbar">
+        <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2">Denial</a>
+        <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752">Anger</a>
+        <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec">Bargaining</a>
+        <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9">Depression</a>
+        <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701">Acceptance</a>
+    </div>
+
+    <!-- Top-left corner text -->
+    <div class="top-left-text">
+        <p>Succubus - Ken Carson</p>
+    </div>
+
+    <script src="./666.js"></script>
+    <script>
+        const video = document.getElementById('video');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const spinningElement = document.querySelector('.six');
+
+        // Add the spinning class to the element with class "six"
+        spinningElement.classList.add('spin');
+
+        // Set the video volume to 50% on initial render
+        video.volume = 0.5;
+        volumeSlider.value = 0.5;  // Set the slider's value to 50% as well
+
+        volumeSlider.addEventListener('input', (event) => {
+            video.volume = event.target.value;
+        });
+    </script>
+</body>
+</html>
