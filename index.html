@@ -18,7 +18,8 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            object-fit: cover; /* Ensures the video covers the viewport */
+            object-fit: cover;
+            opacity: 1; /* Visible immediately */
         }
 
         .text-overlay {
@@ -32,6 +33,29 @@
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
             z-index: 1; /* Ensures the text is on top of the video */
+            opacity: 1; /* Art element is visible initially */
+        }
+
+        .text-overlay img {
+            cursor: pointer; /* Indicates it's clickable */
+        }
+
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
+            opacity: 1; /* Visible immediately */
+        }
+
+        .sound-slider,
+        .navbar,
+        .top-left-text {
+            opacity: 0; /* Hidden initially */
+            pointer-events: none; /* Prevent interaction initially */
         }
 
         .sound-slider {
@@ -41,49 +65,24 @@
             background: rgba(0, 0, 0, 0.5);
             padding: 5px;
             border-radius: 5px;
-            z-index: 2; /* Ensures the slider is above the text and video */
+            z-index: 2;
         }
 
         .sound-slider input[type="range"] {
             width: 100px;
         }
 
-        .vignette {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none; /* Ensures it does not block interaction */
-            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
-        }
-
-        /* Spinning Animation */
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .spin {
-            animation: spin 50s linear infinite; /* Spins the element every 50 seconds indefinitely */
-        }
-
-        /* Updated Navbar styles with farther starting fade */
         .navbar {
             position: absolute;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             width: 50%;
-            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8) 15%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0)); /* Start fading further away */
+            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8) 15%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0));
             display: flex;
             justify-content: space-evenly;
             padding: 10px 0;
-            z-index: 2; /* Ensures navbar is above the video */
+            z-index: 2;
         }
 
         .navbar a {
@@ -95,11 +94,10 @@
         }
 
         .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.1); 
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
         }
 
-        /* New Top-left text styles */
         .top-left-text {
             position: absolute;
             top: 20px;
@@ -109,50 +107,99 @@
             font-family: Arial, sans-serif;
             padding: 10px;
             border-radius: 5px;
-            z-index: 2; /* Ensures the text is above the video */
+            z-index: 2;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        /* Apply fade-in dynamically */
+        .fade-in {
+            animation: fadeIn 2s forwards;
+        }
+
+        /* Add a keyframe for spinning animation */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Apply the spinning animation to the .six class */
+        .six {
+            animation: spin 25s linear infinite; /* Spins every 4 seconds */
         }
     </style>
 </head>
 <body>
-    <video id="video" autoplay muted loop>
+    <video id="video" muted loop>
         <source src="./6.mp4" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="vignette"></div>
     <div class="text-overlay">
-        <img src="art.png" class="six" height="25%" width="25%">
+        <img src="art.png" class="six" height="25%" width="25%" id="art">
     </div>
-    <div class="sound-slider">
-        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.5">
+    <div class="sound-slider" id="sliderContainer">
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
     </div>
-    <!-- Navbar at the bottom -->
-    <div class="navbar">
+    <div class="navbar" id="navbar">
         <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2">Denial</a>
         <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752">Anger</a>
         <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec">Bargaining</a>
         <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9">Depression</a>
         <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701">Acceptance</a>
     </div>
-
-    <!-- Top-left corner text -->
-    <div class="top-left-text">
+    <div class="top-left-text" id="topLeftText">
         <p>Succubus - Ken Carson</p>
     </div>
 
-    <script src="./666.js"></script>
     <script>
         const video = document.getElementById('video');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const spinningElement = document.querySelector('.six');
-        video.muted = false;
+        const art = document.getElementById('art');
+        const sliderContainer = document.getElementById('sliderContainer');
+        const navbar = document.getElementById('navbar');
+        const topLeftText = document.getElementById('topLeftText');
 
-        spinningElement.classList.add('spin');
+        // Start video paused
+        video.pause();
+        video.volume = 0;
 
-        video.volume = 0.5;
-        volumeSlider.value = 0.5;
+        // Art click handler
+        art.addEventListener('click', () => {
+            // Set video volume and slider to 0.5
+            video.volume = 0.25;
+            volumeSlider.value = 0.25;
 
+            // Start video playback
+            video.play();
+            video.muted = false;
+
+            // Add fade-in class to all elements
+            sliderContainer.classList.add('fade-in');
+            navbar.classList.add('fade-in');
+            topLeftText.classList.add('fade-in');
+
+            // Enable interaction
+            sliderContainer.style.pointerEvents = 'auto';
+            navbar.style.pointerEvents = 'auto';
+            topLeftText.style.pointerEvents = 'auto';
+        });
+
+        // Volume slider handler
         volumeSlider.addEventListener('input', (event) => {
             video.volume = event.target.value;
+            video.muted = false;
         });
     </script>
 </body>
