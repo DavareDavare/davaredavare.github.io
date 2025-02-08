@@ -10,6 +10,7 @@
             padding: 0;
             height: 100%;
             overflow: hidden;
+            background-color: black;
         }
 
         video {
@@ -19,7 +20,7 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-            opacity: 1; /* Visible immediately */
+            opacity: 0; /* Visible immediately */
         }
 
         .text-overlay {
@@ -139,11 +140,15 @@
         .six {
             animation: spin 25s linear infinite; /* Spins every 4 seconds */
         }
+
+        .highlight{
+            border-bottom: 2px solid white; /* Adjust thickness and color as needed */
+        }
     </style>
 </head>
 <body>
     <video id="video" muted loop>
-        <source src="./6.mp4" type="video/mp4">
+        <source id="videoSource" src="" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="vignette"></div>
@@ -154,22 +159,40 @@
         <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
     </div>
     <div class="navbar" id="navbar">
-        <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2">Denial</a>
-        <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752">Anger</a>
-        <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec">Bargaining</a>
-        <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9">Depression</a>
-        <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701">Acceptance</a>
+        <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2" id="nav1">Denial</a>
+        <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752" id="nav2">Anger</a>
+        <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec" id="nav3">Bargaining</a>
+        <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9" id="nav4">Depression</a>
+        <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701" id="nav5">Acceptance</a>
     </div>
     <div class="top-left-text" id="topLeftText">
-        <p>Succubus - Ken Carson</p>
+        <p></p>
     </div>
     <script src="./666.js"></script>
     <script>
+        const videos = [
+            { src: "./ilck.mp4", text: "if looks could kill - Destroy Lonely" },
+            { src: "./freestyle2.mp4", text: "freestyle 2 - Ken Carson" },
+            { src: "./530.mp4", text: "530 - Kanye West, Ty Dolla $ign" },
+            { src: "./succubus.mp4", text: "Succubus - Ken Carson" },
+            { src: "./24songs.mp4", text: "24 songs - Playboi Carti" }
+        ];
+
         const video = document.getElementById('video');
         const art = document.getElementById('art');
         const sliderContainer = document.getElementById('sliderContainer');
         const navbar = document.getElementById('navbar');
         const topLeftText = document.getElementById('topLeftText');
+        const navItems = document.querySelectorAll('.navbar a');
+
+        const selectedVideoIndex = Math.floor(Math.random() * videos.length);
+        console.log(selectedVideoIndex)
+        const selectedVideo = videos[selectedVideoIndex];
+        videoSource.src = selectedVideo.src;
+
+        topLeftText.innerHTML = `<p>${selectedVideo.text}</p>`;
+
+        navItems[selectedVideoIndex].classList.add('highlight');
 
         // Start video paused
         video.pause();
@@ -178,6 +201,7 @@
         // Art click handler
         art.addEventListener('click', () => {
             // Set video volume and slider to 0.5
+            video.style.opacity = 1;
             video.volume = 0.25;
             volumeSlider.value = 0.25;
 
