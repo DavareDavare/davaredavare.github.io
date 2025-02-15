@@ -20,6 +20,33 @@
             overflow: hidden;
             position: relative;
         }
+
+        /* Vignette effect */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 1) 100%);
+            z-index: 0; /* Ensure it stays behind the text and grid */
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 1; /* Higher than vignette, so text is on top */
+        }
+
+        /* Dynamic text grid styles */
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
@@ -30,9 +57,11 @@
             position: relative;
             z-index: 2; /* Ensure it's above the background text */
         }
+
         .red {
             color: red;
         }
+
         .background-text-container {
             position: absolute;
             top: 50%;
@@ -42,6 +71,7 @@
             opacity: 0.1; /* You can adjust this to make it more or less transparent */
             text-align: center; /* Aligns text to the center */
         }
+
         .background-text {
             font-size: 48px;
             color: red;
@@ -101,13 +131,11 @@
         }
 
         function initializeGrid() {
-            console.log("this is art")
             content = [];
             while (content.length < rows * cols) {
                 content.push(...getRandomChar());
             }
             updateGrid();
-            console.log("666")
         }
 
         window.addEventListener("resize", resizeGrid);
