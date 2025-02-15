@@ -198,10 +198,15 @@
         video.pause();
         video.volume = 0;
 
+        let clicked = 0;
+
         // Art click handler
         art.addEventListener('click', () => {
+            if(clicked==0)
+        {
             // Set video volume and slider to 0.5
             video.style.opacity = 1;
+            clicked = 1;
             video.volume = 0.25;
             volumeSlider.value = 0.25;
 
@@ -218,6 +223,10 @@
             sliderContainer.style.pointerEvents = 'auto';
             navbar.style.pointerEvents = 'auto';
             topLeftText.style.pointerEvents = 'auto';
+        }else
+        {
+            window.location.href = "why.html";
+        }
         });
 
         // Volume slider handler
