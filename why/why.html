@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>noone love you</title>
+    <style>
+        body {
+            background: url('background.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            font-family: monospace;
+            font-size: 24px;
+            white-space: pre;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+            grid-auto-rows: 24px;
+            width: 100vw;
+            height: 100vh;
+            line-height: 24px;
+            position: relative;
+            z-index: 2; /* Ensure it's above the background text */
+        }
+        .red {
+            color: red;
+        }
+        .background-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1; /* Behind the dynamic text grid */
+            opacity: 0.1; /* You can adjust this to make it more or less transparent */
+            text-align: center; /* Aligns text to the center */
+        }
+        .background-text {
+            font-size: 48px;
+            color: red;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Element for MP3 (looped) -->
+    <audio id="audio" loop autoplay>
+        <source src="n1ly.mp3" type="audio/mp3" class="audio">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Background Text Container -->
+    <div class="background-text-container">
+        <div class="background-text">noone love you</div>
+        <div class="background-text">- akira yamaoka</div>
+    </div>
+    
+    <!-- Dynamic Text Grid -->
+    <div class="container" id="grid"></div>
+
+    <script>
+        const grid = document.getElementById("grid");
+        let cols, rows, content = [];
+        const specialWords = ["help", "why", "error", "when", "end", "lost", "ahahah", "666", "", "denial", "anger", "bargaining", "depression", "acceptance", "?"];
+        let currentWord = [];
+        const audio = document.getElementById("audio");
+        audio.volume = 0.2;
+
+        function getRandomChar() {
+            if (currentWord.length > 0) return [currentWord.shift()];
+            
+            if (Math.random() < 1/666) {
+                currentWord = specialWords[Math.floor(Math.random() * specialWords.length)]
+                    .split("").map(letter => `<span class="red">${letter}</span>`);
+                return [currentWord.shift()];
+            }
+            
+            let char = Math.random() < 0.5 ? 'h' : 'a';
+            return Math.random() < 1/100 ? [char, char] : [char]; // Duplicate letter chance
+        }
+
+        function updateGrid() {
+            content.shift(); // Remove oldest element
+            content.push(...getRandomChar()); // Add new elements at the end
+            while (content.length > rows * cols) content.shift(); // Ensure correct size
+            grid.innerHTML = content.map(c => `<span>${c}</span>`).join("");
+        }
+
+        function resizeGrid() {
+            cols = Math.floor(window.innerWidth / 20);
+            rows = Math.floor(window.innerHeight / 23);
+            content = Array(rows * cols).fill(" ");
+            initializeGrid();
+        }
+
+        function initializeGrid() {
+            console.log("this is art")
+            content = [];
+            while (content.length < rows * cols) {
+                content.push(...getRandomChar());
+            }
+            updateGrid();
+            console.log("666")
+        }
+
+        window.addEventListener("resize", resizeGrid);
+        resizeGrid();
+        setInterval(updateGrid, 200);
+    </script>
+</body>
+</html>
