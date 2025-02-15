@@ -19,6 +19,8 @@
             width: 100vw;
             overflow: hidden;
             position: relative;
+            margin: 0; /* Remove any default margin */
+            padding: 0; /* Remove any default padding */
         }
 
         /* Vignette effect */
@@ -30,7 +32,19 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 1) 100%);
-            z-index: 0; /* Ensure it stays behind the text and grid */
+            z-index: 1; /* Ensure it stays behind the text and grid */
+        }
+
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
+            opacity: 1; /* Visible immediately */
+            z-index: 0; /* Lower than text-overlay */
         }
 
         .text-overlay {
@@ -43,10 +57,9 @@
             font-family: Arial, sans-serif;
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 1; /* Higher than vignette, so text is on top */
+            z-index: 2; /* Higher than vignette */
         }
 
-        /* Dynamic text grid styles */
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
@@ -131,11 +144,13 @@
         }
 
         function initializeGrid() {
+            console.log("this is art")
             content = [];
             while (content.length < rows * cols) {
                 content.push(...getRandomChar());
             }
             updateGrid();
+            console.log("666")
         }
 
         window.addEventListener("resize", resizeGrid);
