@@ -234,6 +234,53 @@
             video.volume = event.target.value;
             video.muted = false;
         });
+
+        function createRandomSquare() {
+    // Create the square
+    const square = document.createElement("div");
+    square.style.width = "100px";
+    square.style.height = "100px";
+    square.style.position = "absolute"; 
+    square.style.cursor = "pointer";
+    square.style.zIndex = "3"; // Ensures it's above other elements
+    square.style.display = "flex";  // To use flexbox for centering the star
+    square.style.alignItems = "center"; // Vertically center the content
+    square.style.justifyContent = "center"; // Horizontally center the content
+    square.style.color = "white"
+
+    // Get viewport dimensions
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    // Generate random position
+    const randomX = Math.floor(Math.random() * (viewportWidth - 100));
+    const randomY = Math.floor(Math.random() * (viewportHeight - 100));
+
+    square.style.left = `${randomX}px`;
+    square.style.top = `${randomY}px`;
+
+    // Create the paragraph with the star character
+    const paragraph = document.createElement("p");
+    paragraph.textContent = "✦"; // Using a different star character
+    paragraph.style.fontSize = "30px"; // Adjust the size of the star
+    paragraph.style.margin = "0";  // Remove default margin for perfect centering
+    paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif"; // Added font family for symbol support
+
+    // Add event listener to the square, including the star click
+    square.addEventListener("click", () => {
+        window.location.href = "/alternate-ending";
+    });
+
+    // Append the paragraph (star) inside the square
+    square.appendChild(paragraph);
+
+    // Append the square to the body
+    document.body.appendChild(square);
+}
+
+window.onload = createRandomSquare;
+
+
     </script>
 </body>
 </html>

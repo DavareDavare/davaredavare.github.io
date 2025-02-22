@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollable Starry Night</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            position: relative;
+            width: 100vw;
+            height: 30000vh; /* Makes the page scrollable vertically */
+            overflow-x: hidden; /* Prevents horizontal scrolling */
+        }
+        .star {
+            position: absolute;
+            color: white;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        .bottom-image {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .start-text, .end-text {
+            position: absolute;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            padding: 20px;
+            bottom: 0; /* Aligning the text to the bottom of the page */
+            transform: translateY(-50%);
+        }
+        .start-text {
+            left: 10%; /* Positioned to the left of the image */
+        }
+        .end-text {
+            right: 10%; /* Positioned to the right of the image */
+        }
+    </style>
+</head>
+<body>
+    <audio id="audio" loop autoplay>
+        <source src="snowworld.mp3" type="audio/mp3" class="audio">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        const starDensity = 0.08; // Adjust this value to control star density
+        const viewportWidth = window.innerWidth;
+        const pageHeight = document.body.scrollHeight; // Use full page height for scrolling effect
+        const totalStars = Math.floor(viewportWidth * pageHeight * starDensity / 1000);
+        const starCharacters = ['.', '。', 'ﾟ', '✦', ',', ' '];
+
+        function createStar() {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.innerHTML = starCharacters[Math.floor(Math.random() * starCharacters.length)];
+            star.style.left = `${Math.random() * viewportWidth}px`;
+            star.style.top = `${Math.random() * pageHeight}px`; // Allows stars to be spread over full height
+            star.style.fontSize = `${Math.random() * 1.5 + 0.5}rem`;
+            star.style.opacity = Math.random() * 0.8 + 0.2;
+            document.body.appendChild(star);
+        }
+
+        for (let i = 0; i < totalStars; i++) {
+            if (Math.random() < 0.8) { // 80% chance to create a star
+                createStar();
+            }
+        }
+    </script>
+
+    <!-- Added text on the left side of the image -->
+    <div class="start-text">
+        <p>when will my time come?</p>
+    </div>
+
+    <!-- Added text on the right side of the image -->
+    <div class="end-text">
+        <p>image src: oyasumi punpun - inio asano</p>
+        <p>music src: SNOW WORLD (EXTENDED) - KIKIYAMAS</p>
+    </div>
+
+    <img src="aiko.png" height="1402px" width="1000px" alt="Aiko" class="bottom-image">
+</body>
+</html>
