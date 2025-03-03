@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>disturbed mind</title>
+    <style>
+        body {
+            background: url('eyes.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: black;
+            font-family: monospace;
+            font-size: 24px;
+            white-space: pre;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Vignette effect */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 1) 100%);
+            z-index: 1;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(20px, 1fr));
+            grid-auto-rows: 24px;
+            width: 100vw;
+            height: 100vh;
+            line-height: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .background-text-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            opacity: 0.1;
+            text-align: center;
+        }
+
+        .background-text {
+            font-size: 48px;
+            color: rgb(255, 0, 0, 25);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Element for MP3 (looped) -->
+    <audio id="audio" loop autoplay>
+        <source src="blackfairy.mp3" type="audio/mp3" class="audio" >
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Dynamic Text Grid -->
+    <div class="container" id="grid"></div>
+
+    <script>
+const asciiArt = [
+    "---------------*-----------------------------------------------",
+    "--------------#*----------------------------*=-----------------",
+    "-------------*#*----------------------------*#*----------------",
+    "------------=##=----------=+**+=------------=##*---------------",
+    "------------=##+-------+##########+---------=###---------------",
+    "------------+###+-----*##############=------*###=--------------",
+    "------------+#####*=-*################*----#####---------------",
+    "------------=###########################*######*---------------",
+    "-------------=#################################=---------------",
+    "---------------+#############################*-----------------",
+    "-----------------*#########################=-------------------",
+    "----------------+##########################--------------------",
+    "----------------*##########################--------------------",
+    "----------------*##########################--------------------",
+    "----------------*##########################--------------------",
+    "----------------*##########################--------------------",
+    "----------------*##########################--------------------",
+    "----------------*##########################--------------------"
+];
+
+function getRandomChar() {
+    return Math.random() < 0.5 ? "?" : "⸮";
+}
+
+function transformAsciiArt() {
+    return asciiArt.map(line => 
+        line.replace(/./g, char => char === '-' ? " " : getRandomChar())
+    ).join("\n");
+}
+
+function updateAsciiArt() {
+    document.querySelector("pre").textContent = transformAsciiArt();
+}
+
+function displayAsciiArt() {
+    const container = document.createElement("a"); // Use an anchor (<a>) element
+    container.href = "https://open.spotify.com/playlist/3Y1BR1tUr5zPn5rfWZalZr?si=065bb5048b38437e";  // Replace with the URL you want to link to
+
+    const pre = document.createElement("pre");
+    pre.textContent = transformAsciiArt();
+    pre.style.position = "absolute";
+    pre.style.top = "50%";
+    pre.style.left = "50%";
+    pre.style.transform = "translate(-50%, -50%)";
+    pre.style.color = "red";
+    pre.style.opacity = "25%";
+    pre.style.zIndex = "2";
+
+    container.appendChild(pre);
+    document.body.appendChild(container);
+    setInterval(updateAsciiArt, 100); // Refresh the ASCII art dynamically
+}
+
+displayAsciiArt();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const audio = document.getElementById("audio");
+    audio.volume = 0.2; // Set volume (range: 0.0 to 1.0)
+});
+
+    </script>
+</body>
+</html>
