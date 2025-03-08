@@ -19,11 +19,10 @@
             width: 100vw;
             overflow: hidden;
             position: relative;
-            margin: 0; /* Remove any default margin */
-            padding: 0; /* Remove any default padding */
+            margin: 0;
+            padding: 0;
         }
 
-        /* Vignette effect */
         body::after {
             content: '';
             position: absolute;
@@ -32,7 +31,7 @@
             width: 100%;
             height: 100%;
             background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 20%, rgba(0, 0, 0, 1) 100%);
-            z-index: 1; /* Ensure it stays behind the text and grid */
+            z-index: 1;
         }
 
         .vignette {
@@ -43,8 +42,8 @@
             height: 100vh;
             pointer-events: none;
             background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
-            opacity: 1; /* Visible immediately */
-            z-index: 0; /* Lower than text-overlay */
+            opacity: 1;
+            z-index: 0;
         }
 
         .text-overlay {
@@ -57,7 +56,7 @@
             font-family: Arial, sans-serif;
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 2; /* Higher than vignette */
+            z-index: 2;
         }
 
         .container {
@@ -68,7 +67,7 @@
             height: 100vh;
             line-height: 24px;
             position: relative;
-            z-index: 2; /* Ensure it's above the background text */
+            z-index: 2;
         }
 
         .red {
@@ -80,9 +79,9 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            z-index: 1; /* Behind the dynamic text grid */
-            opacity: 0.1; /* You can adjust this to make it more or less transparent */
-            text-align: center; /* Aligns text to the center */
+            z-index: 1;
+            opacity: 0.1;
+            text-align: center;
         }
 
         .background-text {
@@ -93,19 +92,16 @@
     </style>
 </head>
 <body>
-    <!-- Audio Element for MP3 (looped) -->
     <audio id="audio" loop autoplay>
         <source src="n1ly.mp3" type="audio/mp3" class="audio">
         Your browser does not support the audio element.
     </audio>
     
-    <!-- Background Text Container -->
     <div class="background-text-container">
         <div class="background-text">noone love you</div>
         <div class="background-text">- akira yamaoka</div>
     </div>
     
-    <!-- Dynamic Text Grid -->
     <div class="container" id="grid"></div>
 
     <script>
@@ -126,13 +122,13 @@
             }
             
             let char = Math.random() < 0.5 ? 'h' : 'a';
-            return Math.random() < 1/100 ? [char, char] : [char]; // Duplicate letter chance
+            return Math.random() < 1/100 ? [char, char] : [char];
         }
 
         function updateGrid() {
-            content.shift(); // Remove oldest element
-            content.push(...getRandomChar()); // Add new elements at the end
-            while (content.length > rows * cols) content.shift(); // Ensure correct size
+            content.shift();
+            content.push(...getRandomChar());
+            while (content.length > rows * cols) content.shift();
             grid.innerHTML = content.map(c => `<span>${c}</span>`).join("");
         }
 

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last Days</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.7) 100%);
+        }
+        
+        .text-box {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-size: 20px;
+            opacity: 0;
+            transition: opacity 20s ease-in-out;
+        }
+        
+        .ascii-art {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-family: monospace;
+            white-space: pre;
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <video autoplay muted loop>
+        <source src="bg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <div class="vignette"></div>
+    
+    <div id="text-box" class="text-box">
+        <p>video: private paul - statusbericht </p>
+        <p>music: a$ap rocky - lvl </p>
+    </div>
+    
+    <div id="ascii-art" class="ascii-art"></div>
+    
+    <audio id="bg-audio" autoplay loop>
+        <source src="ldoe.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('bg-audio');
+            audio.volume = 0.25;
+            audio.play().catch(() => {});
+
+            const textBox = document.getElementById('text-box');
+            const asciiArtElement = document.getElementById('ascii-art');
+            const shouldFade = true;
+
+            const asciiArt = [
+                "---------------------------.+.",
+                "---------------------------.@@:",
+                "---------------------------.#@*..",
+                "------------.-------------.~#@%:",
+                "-----------.+~.----------.~+%@%:.",
+                "-----------.~@*:........:=*%@@+:.",
+                "-----------..:=@@@*===+*#%%%@@+~.",
+                "------------::~+@@@@@@@@@@@*++=:"
+            ];
+            
+            const cleanedAsciiArt = asciiArt.map(line => line.replace(/-/g, ' '));
+            asciiArtElement.innerHTML = cleanedAsciiArt.join('<br>');
+
+            setTimeout(() => {
+                asciiArtElement.style.opacity = "1";
+            }, 32400);
+            
+            setTimeout(() => {
+                textBox.style.opacity = "0.2";
+            }, 0);
+
+            asciiArtElement.addEventListener('click', () => {
+                window.location.href = 'https://open.spotify.com/playlist/4SIClKThzmx1YTudtsa74k?si=eb14a0017a9a4bcb'; // Replace with your URL
+            });
+        });
+    </script>
+</body>
+</html>

@@ -20,7 +20,7 @@
             width: 100vw;
             height: 100vh;
             object-fit: cover;
-            opacity: 0; /* Visible immediately */
+            opacity: 0;
         }
 
         .text-overlay {
@@ -33,12 +33,12 @@
             font-family: Arial, sans-serif;
             text-align: center;
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 1; /* Ensures the text is on top of the video */
-            opacity: 1; /* Art element is visible initially */
+            z-index: 1;
+            opacity: 1;
         }
 
         .text-overlay img {
-            cursor: pointer; /* Indicates it's clickable */
+            cursor: pointer;
         }
 
         .vignette {
@@ -49,14 +49,15 @@
             height: 100vh;
             pointer-events: none;
             background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
-            opacity: 1; /* Visible immediately */
+            opacity: 1;
         }
 
         .sound-slider,
         .navbar,
+        .clickable-text,
         .top-left-text {
-            opacity: 0; /* Hidden initially */
-            pointer-events: none; /* Prevent interaction initially */
+            opacity: 0;
+            pointer-events: none;
         }
 
         .sound-slider {
@@ -86,6 +87,15 @@
             z-index: 2;
         }
 
+        .cross {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -111,7 +121,6 @@
             z-index: 2;
         }
 
-        /* Fade-in animation */
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -121,12 +130,10 @@
             }
         }
         
-        /* Apply fade-in dynamically */
         .fade-in {
             animation: fadeIn 2s forwards;
         }
 
-        /* Add a keyframe for spinning animation */
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
@@ -136,13 +143,33 @@
             }
         }
 
-        /* Apply the spinning animation to the .six class */
         .six {
-            animation: spin 25s linear infinite; /* Spins every 4 seconds */
+            animation: spin 25s linear infinite;
         }
 
         .highlight{
-            border-bottom: 2px solid white; /* Adjust thickness and color as needed */
+            border-bottom: 2px solid white
+        }
+
+        /* Add styles for the new clickable text box */
+        .clickable-text {
+            position: absolute;
+            top: calc(50% - 500px); /* Position the box 100-200px above the art */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .clickable-text a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.25;
         }
     </style>
 </head>
@@ -152,12 +179,20 @@
         Your browser does not support the video tag.
     </video>
     <div class="vignette"></div>
+    
+    <!-- New clickable text box -->
+    <div class="clickable-text">
+        my mind
+    </div>
+
     <div class="text-overlay">
         <img src="art.png" class="six" height="25%" width="25%" id="art">
     </div>
+    
     <div class="sound-slider" id="sliderContainer">
         <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
     </div>
+    
     <div class="navbar" id="navbar">
         <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2" id="nav1">Denial</a>
         <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752" id="nav2">Anger</a>
@@ -165,9 +200,13 @@
         <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9" id="nav4">Depression</a>
         <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701" id="nav5">Acceptance</a>
     </div>
+    
     <div class="top-left-text" id="topLeftText">
         <p></p>
     </div>
+    
+    <div class="cross">✝</div>
+    
     <script src="./666.js"></script>
     <script>
         const videos = [
@@ -184,6 +223,8 @@
         const navbar = document.getElementById('navbar');
         const topLeftText = document.getElementById('topLeftText');
         const navItems = document.querySelectorAll('.navbar a');
+        const cross = document.getElementsByClassName('cross')[0];
+        const mind = document.getElementsByClassName("clickable-text")[0]
 
         const selectedVideoIndex = Math.floor(Math.random() * videos.length);
         console.log(selectedVideoIndex)
@@ -194,93 +235,88 @@
 
         navItems[selectedVideoIndex].classList.add('highlight');
 
-        // Start video paused
         video.pause();
         video.volume = 0;
 
         let clicked = 0;
 
-        // Art click handler
         art.addEventListener('click', () => {
             if(clicked==0)
         {
-            // Set video volume and slider to 0.5
             video.style.opacity = 1;
             clicked = 1;
             video.volume = 0.25;
             volumeSlider.value = 0.25;
 
-            // Start video playback
             video.play();
             video.muted = false;
 
-            // Add fade-in class to all elements
             sliderContainer.classList.add('fade-in');
             navbar.classList.add('fade-in');
             topLeftText.classList.add('fade-in');
+            mind.classList.add('fade-in');
 
-            // Enable interaction
             sliderContainer.style.pointerEvents = 'auto';
             navbar.style.pointerEvents = 'auto';
             topLeftText.style.pointerEvents = 'auto';
+            mind.style.pointerEvents = 'auto';
         }else
         {
             window.location.href = "/why";
         }
         });
 
-        // Volume slider handler
+        cross.addEventListener('click', () => {
+            window.location.href = "/ldoe";
+        });
+
+        mind.addEventListener('click', () => {
+            window.location.href = "/mind";
+        });
+
         volumeSlider.addEventListener('input', (event) => {
             video.volume = event.target.value;
             video.muted = false;
         });
 
         function createRandomSquare() {
-    // Create the square
+
     const square = document.createElement("div");
     square.style.width = "100px";
     square.style.height = "100px";
     square.style.position = "absolute"; 
     square.style.cursor = "pointer";
-    square.style.zIndex = "3"; // Ensures it's above other elements
-    square.style.display = "flex";  // To use flexbox for centering the star
-    square.style.alignItems = "center"; // Vertically center the content
-    square.style.justifyContent = "center"; // Horizontally center the content
+    square.style.zIndex = "3";
+    square.style.display = "flex";
+    square.style.alignItems = "center";
+    square.style.justifyContent = "center";
     square.style.color = "white"
 
-    // Get viewport dimensions
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
 
-    // Generate random position
     const randomX = Math.floor(Math.random() * (viewportWidth - 100));
     const randomY = Math.floor(Math.random() * (viewportHeight - 100));
 
     square.style.left = `${randomX}px`;
     square.style.top = `${randomY}px`;
 
-    // Create the paragraph with the star character
     const paragraph = document.createElement("p");
-    paragraph.textContent = "✦"; // Using a different star character
-    paragraph.style.fontSize = "30px"; // Adjust the size of the star
-    paragraph.style.margin = "0";  // Remove default margin for perfect centering
-    paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif"; // Added font family for symbol support
+    paragraph.textContent = "✦";
+    paragraph.style.fontSize = "30px";
+    paragraph.style.margin = "0";
+    paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif";
 
-    // Add event listener to the square, including the star click
     square.addEventListener("click", () => {
         window.location.href = "/alternate-ending";
     });
 
-    // Append the paragraph (star) inside the square
     square.appendChild(paragraph);
 
-    // Append the square to the body
     document.body.appendChild(square);
 }
 
 window.onload = createRandomSquare;
-
-
     </script>
 </body>
 </html>

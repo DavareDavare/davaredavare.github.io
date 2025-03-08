@@ -23,7 +23,6 @@
             position: relative;
         }
 
-        /* Vignette effect */
         body::after {
             content: '';
             position: absolute;
@@ -77,13 +76,11 @@
     </style>
 </head>
 <body>
-    <!-- Audio Element for MP3 (looped) -->
     <audio id="audio" loop autoplay>
         <source src="blackfairy.mp3" type="audio/mp3" class="audio" >
         Your browser does not support the audio element.
     </audio>
     
-    <!-- Dynamic Text Grid -->
     <div class="container" id="grid"></div>
 
     <script>
@@ -123,8 +120,8 @@ function updateAsciiArt() {
 }
 
 function displayAsciiArt() {
-    const container = document.createElement("a"); // Use an anchor (<a>) element
-    container.href = "https://open.spotify.com/playlist/3Y1BR1tUr5zPn5rfWZalZr?si=065bb5048b38437e";  // Replace with the URL you want to link to
+    const container = document.createElement("a");
+    container.href = "https://open.spotify.com/playlist/3Y1BR1tUr5zPn5rfWZalZr?si=065bb5048b38437e";
 
     const pre = document.createElement("pre");
     pre.textContent = transformAsciiArt();
@@ -138,14 +135,14 @@ function displayAsciiArt() {
 
     container.appendChild(pre);
     document.body.appendChild(container);
-    setInterval(updateAsciiArt, 100); // Refresh the ASCII art dynamically
+    setInterval(updateAsciiArt, 100);
 }
 
 displayAsciiArt();
 
 document.addEventListener("DOMContentLoaded", function () {
     const audio = document.getElementById("audio");
-    audio.volume = 0.2; // Set volume (range: 0.0 to 1.0)
+    audio.volume = 0.2;
 });
 
     </script>
