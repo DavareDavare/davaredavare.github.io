@@ -216,7 +216,7 @@
             { src: "./succubus.mp4", text: "Succubus - Ken Carson" },
             { src: "./24songs.mp4", text: "24 songs - Playboi Carti" }
         ];
-
+    
         const video = document.getElementById('video');
         const art = document.getElementById('art');
         const sliderContainer = document.getElementById('sliderContainer');
@@ -224,98 +224,100 @@
         const topLeftText = document.getElementById('topLeftText');
         const navItems = document.querySelectorAll('.navbar a');
         const cross = document.getElementsByClassName('cross')[0];
-        const mind = document.getElementsByClassName("clickable-text")[0]
-
+        const mind = document.getElementsByClassName("clickable-text")[0];
+    
         const selectedVideoIndex = Math.floor(Math.random() * videos.length);
         const selectedVideo = videos[selectedVideoIndex];
         videoSource.src = selectedVideo.src;
-
+    
         topLeftText.innerHTML = `<p>${selectedVideo.text}</p>`;
-
         navItems[selectedVideoIndex].classList.add('highlight');
-
+    
         video.pause();
         video.volume = 0;
-
+    
         let clicked = 0;
-
-        art.addEventListener('click', () => {
-            if(clicked==0)
-        {
-            video.style.opacity = 1;
-            clicked = 1;
-            video.volume = 0.25;
-            volumeSlider.value = 0.25;
-
-            video.play();
-            video.muted = false;
-
-            sliderContainer.classList.add('fade-in');
-            navbar.classList.add('fade-in');
-            topLeftText.classList.add('fade-in');
-            mind.classList.add('fade-in');
-
-            sliderContainer.style.pointerEvents = 'auto';
-            navbar.style.pointerEvents = 'auto';
-            topLeftText.style.pointerEvents = 'auto';
-            mind.style.pointerEvents = 'auto';
-        }else
-        {
-            window.location.href = "/why";
-        }
+    
+        // Disable clicks on the art (loading screen) until video is loaded
+        art.style.pointerEvents = "none";
+    
+        video.addEventListener('canplaythrough', () => {
+            // Enable clicking when the video is loaded
+            art.style.pointerEvents = "auto";
         });
-
+    
+        art.addEventListener('click', () => {
+            if (clicked == 0) {
+                video.style.opacity = 1;
+                clicked = 1;
+                video.volume = 0.25;
+                volumeSlider.value = 0.25;
+                video.play();
+                video.muted = false;
+    
+                sliderContainer.classList.add('fade-in');
+                navbar.classList.add('fade-in');
+                topLeftText.classList.add('fade-in');
+                mind.classList.add('fade-in');
+    
+                sliderContainer.style.pointerEvents = 'auto';
+                navbar.style.pointerEvents = 'auto';
+                topLeftText.style.pointerEvents = 'auto';
+                mind.style.pointerEvents = 'auto';
+            } else {
+                window.location.href = "/why";
+            }
+        });
+    
         cross.addEventListener('click', () => {
             window.location.href = "/ldoe";
         });
-
+    
         mind.addEventListener('click', () => {
             window.location.href = "/mind";
         });
-
+    
         volumeSlider.addEventListener('input', (event) => {
             video.volume = event.target.value;
             video.muted = false;
         });
-
+    
         function createRandomSquare() {
-
-    const square = document.createElement("div");
-    square.style.width = "100px";
-    square.style.height = "100px";
-    square.style.position = "absolute"; 
-    square.style.cursor = "pointer";
-    square.style.zIndex = "3";
-    square.style.display = "flex";
-    square.style.alignItems = "center";
-    square.style.justifyContent = "center";
-    square.style.color = "white"
-
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    const randomX = Math.floor(Math.random() * (viewportWidth - 100));
-    const randomY = Math.floor(Math.random() * (viewportHeight - 100));
-
-    square.style.left = `${randomX}px`;
-    square.style.top = `${randomY}px`;
-
-    const paragraph = document.createElement("p");
-    paragraph.textContent = "✦";
-    paragraph.style.fontSize = "30px";
-    paragraph.style.margin = "0";
-    paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif";
-
-    square.addEventListener("click", () => {
-        window.location.href = "/alternate-ending";
-    });
-
-    square.appendChild(paragraph);
-
-    document.body.appendChild(square);
-}
-
-window.onload = createRandomSquare;
-    </script>
+            const square = document.createElement("div");
+            square.style.width = "100px";
+            square.style.height = "100px";
+            square.style.position = "absolute";
+            square.style.cursor = "pointer";
+            square.style.zIndex = "3";
+            square.style.display = "flex";
+            square.style.alignItems = "center";
+            square.style.justifyContent = "center";
+            square.style.color = "white";
+    
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+    
+            const randomX = Math.floor(Math.random() * (viewportWidth - 100));
+            const randomY = Math.floor(Math.random() * (viewportHeight - 100));
+    
+            square.style.left = `${randomX}px`;
+            square.style.top = `${randomY}px`;
+    
+            const paragraph = document.createElement("p");
+            paragraph.textContent = "✦";
+            paragraph.style.fontSize = "30px";
+            paragraph.style.margin = "0";
+            paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif";
+    
+            square.addEventListener("click", () => {
+                window.location.href = "/alternate-ending";
+            });
+    
+            square.appendChild(paragraph);
+            document.body.appendChild(square);
+        }
+    
+        window.onload = createRandomSquare;
+    </script>    
 </body>
 </html>
