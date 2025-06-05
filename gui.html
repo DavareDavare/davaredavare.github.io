@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おやすみ</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            opacity: 0;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            opacity: 1;
+        }
+
+        .text-overlay img {
+            cursor: pointer;
+        }
+
+        .vignette {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
+            opacity: 1;
+        }
+
+        .sound-slider,
+        .navbar,
+        .clickable-text,
+        .top-left-text {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sound-slider {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .sound-slider input[type="range"] {
+            width: 100px;
+        }
+
+        .navbar {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8) 15%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0));
+            display: flex;
+            justify-content: space-evenly;
+            padding: 10px 0;
+            z-index: 2;
+        }
+
+        .cross {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+
+        .top-left-text {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .six {
+            animation: spin 25s linear infinite;
+        }
+
+        .highlight{
+            border-bottom: 2px solid white
+        }
+
+        /* Add styles for the new clickable text box */
+        .clickable-text {
+            position: absolute;
+            top: calc(50% - 500px); /* Position the box 100-200px above the art */
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .clickable-text a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.25;
+        }
+    </style>
+</head>
+<body>
+    <video id="video" muted loop>
+        <source id="videoSource" src="" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="vignette"></div>
+    
+    <!-- New clickable text box -->
+    <div class="clickable-text">
+        my mind
+    </div>
+
+    <div class="text-overlay">
+        <img src="art.png" class="six" height="25%" width="25%" id="art">
+    </div>
+    
+    <div class="sound-slider" id="sliderContainer">
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
+    </div>
+    
+    <div class="navbar" id="navbar">
+        <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2" id="nav1">Denial</a>
+        <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752" id="nav2">Anger</a>
+        <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec" id="nav3">Bargaining</a>
+        <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9" id="nav4">Depression</a>
+        <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701" id="nav5">Acceptance</a>
+    </div>
+    
+    <div class="top-left-text" id="topLeftText">
+        <p></p>
+    </div>
+    
+    <div class="cross">✝</div>
+    
+    <script src="./666.js"></script>
+    <script>
+        const videos = [
+            { src: "./ilck.mp4", text: "if looks could kill - Destroy Lonely" },
+            { src: "./fomdj.mp4", text: "FOMDJ - Playboi Carti" },
+            { src: "./530.mp4", text: "530 - Kanye West, Ty Dolla $ign" },
+            { src: "./succubus.mp4", text: "Succubus - Ken Carson" },
+            { src: "./24songs.mp4", text: "24 songs - Playboi Carti" }
+        ];
+    
+        const video = document.getElementById('video');
+        const art = document.getElementById('art');
+        const sliderContainer = document.getElementById('sliderContainer');
+        const navbar = document.getElementById('navbar');
+        const topLeftText = document.getElementById('topLeftText');
+        const navItems = document.querySelectorAll('.navbar a');
+        const cross = document.getElementsByClassName('cross')[0];
+        const mind = document.getElementsByClassName("clickable-text")[0];
+    
+        const selectedVideoIndex = Math.floor(Math.random() * videos.length);
+        const selectedVideo = videos[selectedVideoIndex];
+        videoSource.src = selectedVideo.src;
+    
+        topLeftText.innerHTML = `<p>${selectedVideo.text}</p>`;
+        navItems[selectedVideoIndex].classList.add('highlight');
+    
+        video.pause();
+        video.volume = 0;
+    
+        let clicked = 0;
+    
+        // Disable clicks on the art (loading screen) until video is loaded
+        art.style.pointerEvents = "none";
+    
+        video.addEventListener('canplaythrough', () => {
+            // Enable clicking when the video is loaded
+            art.style.pointerEvents = "auto";
+        });
+    
+        art.addEventListener('click', () => {
+            if (clicked == 0) {
+                video.style.opacity = 1;
+                clicked = 1;
+                video.volume = 0.25;
+                volumeSlider.value = 0.25;
+                video.play();
+                video.muted = false;
+    
+                sliderContainer.classList.add('fade-in');
+                navbar.classList.add('fade-in');
+                topLeftText.classList.add('fade-in');
+                mind.classList.add('fade-in');
+    
+                sliderContainer.style.pointerEvents = 'auto';
+                navbar.style.pointerEvents = 'auto';
+                topLeftText.style.pointerEvents = 'auto';
+                mind.style.pointerEvents = 'auto';
+            } else {
+                window.location.href = "/why";
+            }
+        });
+    
+        cross.addEventListener('click', () => {
+            window.location.href = "/ldoe";
+        });
+    
+        mind.addEventListener('click', () => {
+            window.location.href = "/mind";
+        });
+    
+        volumeSlider.addEventListener('input', (event) => {
+            video.volume = event.target.value;
+            video.muted = false;
+        });
+    
+        function createRandomSquare() {
+            const square = document.createElement("div");
+            square.style.width = "100px";
+            square.style.height = "100px";
+            square.style.position = "absolute";
+            square.style.cursor = "pointer";
+            square.style.zIndex = "3";
+            square.style.display = "flex";
+            square.style.alignItems = "center";
+            square.style.justifyContent = "center";
+            square.style.color = "white";
+    
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+    
+            const randomX = Math.floor(Math.random() * (viewportWidth - 100));
+            const randomY = Math.floor(Math.random() * (viewportHeight - 100));
+    
+            square.style.left = `${randomX}px`;
+            square.style.top = `${randomY}px`;
+    
+            const paragraph = document.createElement("p");
+            paragraph.textContent = "✦";
+            paragraph.style.fontSize = "30px";
+            paragraph.style.margin = "0";
+            paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif";
+    
+            square.addEventListener("click", () => {
+                window.location.href = "/alternate-ending";
+            });
+    
+            square.appendChild(paragraph);
+            document.body.appendChild(square);
+        }
+    
+        window.onload = createRandomSquare;
+    </script>    
+</body>
+</html>

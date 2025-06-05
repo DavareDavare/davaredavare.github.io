@@ -1,323 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>おやすみ</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-            background-color: black;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>davare.xyz</title>
+  <style>
+html, body {
+  margin: 0;
+  padding: 1em;
+  height: 100%;
+  overflow: hidden;      /* prevent page scroll */
+  background-color: #292c2e;
+  color: #fafbfa;
+  font-family: monospace;
+}
 
-        video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            opacity: 0;
-        }
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 95vh;
+  border: 2px solid #0b85a8; /* blue border color */
+  border-radius: 5px;
+  margin: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
 
-        .text-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2rem;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-            z-index: 1;
-            opacity: 1;
-        }
+#terminal-wrapper {
+  flex: 1;
+  overflow-y: auto;          /* scroll only here */
+  padding: 20px 0 20px 40px; /* left padding instead of margin */
+  box-sizing: border-box;
+}
 
-        .text-overlay img {
-            cursor: pointer;
-        }
+.terminal {
+  margin-left: 0;            /* remove margin */
+  width: 100%;
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+}
 
-        .vignette {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            background: radial-gradient(circle, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.7) 100%);
-            opacity: 1;
-        }
+/* Horizontal container for startup banner + ascii art */
+#banner-container {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding-left: 2em; 
+  box-sizing: border-box;
+}
 
-        .sound-slider,
-        .navbar,
-        .clickable-text,
-        .top-left-text {
-            opacity: 0;
-            pointer-events: none;
-        }
 
-        .sound-slider {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 5px;
-            border-radius: 5px;
-            z-index: 2;
-        }
+#startup-message {
+  flex: 0 0 auto;          /* natural width */
+  white-space: pre;        /* preserve spacing */
+  font-family: monospace;
+  overflow-x: visible;     /* no scroll */
+}
 
-        .sound-slider input[type="range"] {
-            width: 100px;
-        }
+#welcome-message {
+  white-space: pre-line;
+  font-family: monospace;
+  margin-bottom: 1em;
+}
 
-        .navbar {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50%;
-            background: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8) 15%, rgba(0, 0, 0, 0.8) 85%, rgba(0, 0, 0, 0));
-            display: flex;
-            justify-content: space-evenly;
-            padding: 10px 0;
-            z-index: 2;
-        }
+#ascii-gradient {
+  flex: 1 1 0;             /* fill remaining space */
+  white-space: pre;
+  font-weight: bold;
+  line-height: 1.1em;
 
-        .cross {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-        }
+  background: linear-gradient(270deg, 
+    #ff5f6d, #ffc371, #24c6dc, #514a9d, #ff5f6d);
+  background-size: 1000% 1000%;
+  animation: gradientShift 15s ease infinite;
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            padding: 10px;
-            text-align: center;
-        }
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 
-        .navbar a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
+  user-select: none;
+  min-width: 0;
+  overflow-x: auto;
+  font-family: monospace;
+}
 
-        .top-left-text {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 1rem;
-            font-family: Arial, sans-serif;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 2;
-        }
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-        
-        .fade-in {
-            animation: fadeIn 2s forwards;
-        }
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+.output {
+  white-space: pre-wrap;
+  margin-left: 2em;
+  margin-bottom: 10px;
+}
 
-        .six {
-            animation: spin 25s linear infinite;
-        }
+.prompt {
+  margin-right: 8px;
+}
 
-        .highlight{
-            border-bottom: 2px solid white
-        }
-
-        /* Add styles for the new clickable text box */
-        .clickable-text {
-            position: absolute;
-            top: calc(50% - 500px); /* Position the box 100-200px above the art */
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 10px;
-            color: white;
-            font-size: 1.2rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            z-index: 2;
-        }
-
-        .clickable-text a {
-            color: white;
-            text-decoration: none;
-            opacity: 0.25;
-        }
-    </style>
+input {
+  background: none;
+  border: none;
+  color: #fafbfa;
+  font-family: monospace;
+  font-size: 1em;
+  outline: none;
+  flex-grow: 1;
+}
+a {
+  color: #0b85a8;
+  text-decoration: underline;
+}
+  </style>
 </head>
 <body>
-    <video id="video" muted loop>
-        <source id="videoSource" src="" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="vignette"></div>
-    
-    <!-- New clickable text box -->
-    <div class="clickable-text">
-        my mind
+  <div class="container">
+    <div id="terminal-wrapper">
+      <div class="terminal" id="terminal">
+        <!-- Startup banner container inserted here -->
+      </div>
     </div>
+  </div>
 
-    <div class="text-overlay">
-        <img src="art.png" class="six" height="25%" width="25%" id="art">
-    </div>
-    
-    <div class="sound-slider" id="sliderContainer">
-        <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="0.0">
-    </div>
-    
-    <div class="navbar" id="navbar">
-        <a href="https://open.spotify.com/playlist/11ODQt0PesCSgvlZSEAEno?si=2d18f84712b346b2" id="nav1">Denial</a>
-        <a href="https://open.spotify.com/playlist/6eHkOd0I97BYfqP2KMPwoC?si=d6f2af4322f24752" id="nav2">Anger</a>
-        <a href="https://open.spotify.com/playlist/6xaDHJv0bTL3bwHmzrrp63?si=a0a37814a4b349ec" id="nav3">Bargaining</a>
-        <a href="https://open.spotify.com/playlist/6lvVHpIvUYbGBxjDhYXoC7?si=66ab93b9b67e49d9" id="nav4">Depression</a>
-        <a href="https://open.spotify.com/playlist/16BgErCgz0uhdGtN58KEyz?si=deeb1b888e084701" id="nav5">Acceptance</a>
-    </div>
-    
-    <div class="top-left-text" id="topLeftText">
-        <p></p>
-    </div>
-    
-    <div class="cross">✝</div>
-    
-    <script src="./666.js"></script>
-    <script>
-        const videos = [
-            { src: "./ilck.mp4", text: "if looks could kill - Destroy Lonely" },
-            { src: "./fomdj.mp4", text: "FOMDJ - Playboi Carti" },
-            { src: "./530.mp4", text: "530 - Kanye West, Ty Dolla $ign" },
-            { src: "./succubus.mp4", text: "Succubus - Ken Carson" },
-            { src: "./24songs.mp4", text: "24 songs - Playboi Carti" }
-        ];
-    
-        const video = document.getElementById('video');
-        const art = document.getElementById('art');
-        const sliderContainer = document.getElementById('sliderContainer');
-        const navbar = document.getElementById('navbar');
-        const topLeftText = document.getElementById('topLeftText');
-        const navItems = document.querySelectorAll('.navbar a');
-        const cross = document.getElementsByClassName('cross')[0];
-        const mind = document.getElementsByClassName("clickable-text")[0];
-    
-        const selectedVideoIndex = Math.floor(Math.random() * videos.length);
-        const selectedVideo = videos[selectedVideoIndex];
-        videoSource.src = selectedVideo.src;
-    
-        topLeftText.innerHTML = `<p>${selectedVideo.text}</p>`;
-        navItems[selectedVideoIndex].classList.add('highlight');
-    
-        video.pause();
-        video.volume = 0;
-    
-        let clicked = 0;
-    
-        // Disable clicks on the art (loading screen) until video is loaded
-        art.style.pointerEvents = "none";
-    
-        video.addEventListener('canplaythrough', () => {
-            // Enable clicking when the video is loaded
-            art.style.pointerEvents = "auto";
-        });
-    
-        art.addEventListener('click', () => {
-            if (clicked == 0) {
-                video.style.opacity = 1;
-                clicked = 1;
-                video.volume = 0.25;
-                volumeSlider.value = 0.25;
-                video.play();
-                video.muted = false;
-    
-                sliderContainer.classList.add('fade-in');
-                navbar.classList.add('fade-in');
-                topLeftText.classList.add('fade-in');
-                mind.classList.add('fade-in');
-    
-                sliderContainer.style.pointerEvents = 'auto';
-                navbar.style.pointerEvents = 'auto';
-                topLeftText.style.pointerEvents = 'auto';
-                mind.style.pointerEvents = 'auto';
-            } else {
-                window.location.href = "/why";
-            }
-        });
-    
-        cross.addEventListener('click', () => {
-            window.location.href = "/ldoe";
-        });
-    
-        mind.addEventListener('click', () => {
-            window.location.href = "/mind";
-        });
-    
-        volumeSlider.addEventListener('input', (event) => {
-            video.volume = event.target.value;
-            video.muted = false;
-        });
-    
-        function createRandomSquare() {
-            const square = document.createElement("div");
-            square.style.width = "100px";
-            square.style.height = "100px";
-            square.style.position = "absolute";
-            square.style.cursor = "pointer";
-            square.style.zIndex = "3";
-            square.style.display = "flex";
-            square.style.alignItems = "center";
-            square.style.justifyContent = "center";
-            square.style.color = "white";
-    
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-    
-            const randomX = Math.floor(Math.random() * (viewportWidth - 100));
-            const randomY = Math.floor(Math.random() * (viewportHeight - 100));
-    
-            square.style.left = `${randomX}px`;
-            square.style.top = `${randomY}px`;
-    
-            const paragraph = document.createElement("p");
-            paragraph.textContent = "✦";
-            paragraph.style.fontSize = "30px";
-            paragraph.style.margin = "0";
-            paragraph.style.fontFamily = "'Arial Unicode MS', 'Segoe UI Symbol', sans-serif";
-    
-            square.addEventListener("click", () => {
-                window.location.href = "/alternate-ending";
-            });
-    
-            square.appendChild(paragraph);
-            document.body.appendChild(square);
-        }
-    
-        window.onload = createRandomSquare;
-    </script>    
+<script>
+  // List of allowed paths to redirect to
+  const allowedPaths = ['/mind', '/ldoe', '/alternate-ending', '/why', '/gui'];
+  const terminal = document.getElementById('terminal');
+  let username = 'guest';
+
+  const startupAscii = `
+██████╗  █████╗ ██╗   ██╗ █████╗ ██████╗ ███████╗   ██╗  ██╗██╗   ██╗███████╗
+██╔══██╗██╔══██╗██║   ██║██╔══██╗██╔══██╗██╔════╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
+██║  ██║███████║██║   ██║███████║██████╔╝█████╗      ╚███╔╝  ╚████╔╝   ███╔╝ 
+██║  ██║██╔══██║╚██╗ ██╔╝██╔══██║██╔══██╗██╔══╝      ██╔██╗   ╚██╔╝   ███╔╝  
+██████╔╝██║  ██║ ╚████╔╝ ██║  ██║██║  ██║███████╗██╗██╔╝ ██╗   ██║   ███████╗
+╚═════╝ ╚═╝  ╚═╝  ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+
+Type 'help' to see available commands.
+Change the current folder to 'gui' or press here, to move to a UI version of this website.
+`;
+
+  const rightAscii = `
+                         :::                       
+                        ::::                       
+                      ::::                         
+                     ::::::::                      
+                    :::::.::::                     
+                    ::::   ::::                   
+                    ::::   ::::                   
+                     :::::::::                     
+                 ::::::::::::::::::                
+                ::::::::: :::: .::::               
+               ::::    ::::::    ::::              
+               ::::   ::::::::  -:::::             
+           ::::::::::::::  :::::::: :::            
+           ::::::::::::      -:::   ::::
+`;
+
+  function printStartupMessage() {
+    if (document.getElementById('banner-container')) return;
+
+    const bannerContainer = document.createElement('div');
+    bannerContainer.id = 'banner-container';
+
+    const leftDiv = document.createElement('div');
+    leftDiv.id = 'startup-message';
+
+    // Create welcome message element
+    const welcomeMessage = document.createElement('div');
+    welcomeMessage.id = 'welcome-message';
+    welcomeMessage.textContent = `${username}, welcome to\n`;
+
+    leftDiv.appendChild(welcomeMessage);
+
+    // Add ASCII art below welcome message with clickable "here"
+    const asciiArtPre = document.createElement('pre');
+    asciiArtPre.style.margin = '0'; // remove default margin of pre tag
+    asciiArtPre.innerHTML = startupAscii.replace(
+      'press here, to move to a UI version of this website.',
+      'press <a href="/gui" id="gui-link">here</a>, to move to a UI version of this website.'
+    );
+    leftDiv.appendChild(asciiArtPre);
+
+    const rightDiv = document.createElement('div');
+    rightDiv.id = 'ascii-gradient';
+    rightDiv.textContent = rightAscii;
+
+    bannerContainer.appendChild(leftDiv);
+    bannerContainer.appendChild(rightDiv);
+
+    terminal.appendChild(bannerContainer);
+  }
+
+  function requestUsername() {
+    const line = document.createElement('div');
+    line.className = 'line';
+
+    const prompt = document.createElement('span');
+    prompt.className = 'prompt';
+    prompt.textContent = 'Enter your name: ';
+
+    const input = document.createElement('input');
+    input.type = 'text';
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        username = input.value.trim() || 'guest';
+        input.disabled = true;
+        simulateCommand('banner', printStartupMessage);
+      }
+    });
+
+    line.appendChild(prompt);
+    line.appendChild(input);
+    terminal.appendChild(line);
+    input.focus();
+  }
+
+  function createPromptSpan() {
+    const prompt = document.createElement('span');
+    prompt.className = 'prompt';
+
+    const usernameSpan = document.createElement('span');
+    usernameSpan.textContent = username;
+    usernameSpan.style.color = '#0b85a8';
+
+    const restSpan = document.createElement('span');
+    restSpan.textContent = '@davare.xyz:$ ~';
+    restSpan.style.color = '#a56e31';
+
+    prompt.appendChild(usernameSpan);
+    prompt.appendChild(restSpan);
+    return prompt;
+  }
+
+  function simulateCommand(commandText, callback) {
+    const line = document.createElement('div');
+    line.className = 'line';
+
+    const prompt = createPromptSpan();
+
+    const input = document.createElement('span');
+    input.textContent = commandText;
+
+    line.appendChild(prompt);
+    line.appendChild(input);
+    terminal.appendChild(line);
+
+    callback();
+    createPromptLine();
+  }
+
+  function createPromptLine() {
+    const line = document.createElement('div');
+    line.className = 'line';
+
+    const prompt = createPromptSpan();
+
+    const input = document.createElement('input');
+    input.type = 'text';
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        const command = input.value.trim();
+        input.disabled = true;
+        handleCommand(command, line);
+      }
+    });
+
+    line.appendChild(prompt);
+    line.appendChild(input);
+    terminal.appendChild(line);
+    input.focus();
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  function clearTerminalExceptStartup() {
+    const banner = document.getElementById('banner-container');
+    if (!banner) return;
+
+    // Remove all nodes after the banner container
+    let next = banner.nextSibling;
+    while (next) {
+      const toRemove = next;
+      next = next.nextSibling;
+      terminal.removeChild(toRemove);
+    }
+  }
+
+  function handleCommand(cmd, line) {
+  const output = document.createElement('div');
+  output.className = 'output';
+
+  // Split command and args
+  const parts = cmd.trim().split(/\s+/);
+  const baseCmd = parts[0].toLowerCase();
+  const arg = parts[1];
+
+  switch (baseCmd) {
+    case 'help':
+      output.textContent = 'Available commands:\nhelp - Show available commands\nsummary - Show site summary\npwd - print working directory\nclear - Clear screen\ncls - Clear screen\nls - list folders and files in current directory\ncd <path> - Change directory to the given path\ndate - Show current date and time\necho <text> - Repeat text back\nwhoami - Show current username\ncalc <expression> - Calculate math expression';
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+    case 'summary':
+      output.textContent = 'TODO: ADD ABOUT ME';
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+    case 'test':
+      output.textContent = 'Test command executed successfully!';
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+
+    // Clear screen commands (both cls and clear)
+    case 'cls':
+    case 'clear':
+      clearTerminalExceptStartup();
+      createPromptLine();
+      break;
+
+    case 'pwd':
+      output.textContent = '/home/davare.xyz';
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+    case 'ls':
+      output.textContent = allowedPaths.join('\n');
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+    case 'cd':
+      if (!arg) {
+        output.textContent = 'cd: missing argument';
+        terminal.appendChild(output);
+        createPromptLine();
+        break;
+      }
+      const targetPath = arg.startsWith('/') ? arg : '/' + arg;
+
+      if (allowedPaths.includes(targetPath)) {
+        output.textContent = `Redirecting to ${targetPath}...`;
+        terminal.appendChild(output);
+        // Delay a bit before redirecting for UX
+        setTimeout(() => {
+          window.location.href = targetPath;
+        }, 500);
+      } else {
+        output.textContent = `cd: no such directory: ${arg}`;
+        terminal.appendChild(output);
+        createPromptLine();
+      }
+      break;
+
+    // New commands you requested:
+    case 'date':
+      output.textContent = new Date().toString();
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+
+    case 'echo':
+      output.textContent = parts.slice(1).join(' ');
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+
+    case 'whoami':
+      output.textContent = username;
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+
+    case 'calc':
+      try {
+        const expression = parts.slice(1).join(' ');
+        // Use eval carefully — here, assuming trusted input
+        const result = eval(expression);
+        output.textContent = `Result: ${result}`;
+      } catch (e) {
+        output.textContent = 'calc: invalid expression';
+      }
+      terminal.appendChild(output);
+      createPromptLine();
+      break;
+
+    default:
+      output.textContent = `Command not found: ${cmd}`;
+      terminal.appendChild(output);
+      createPromptLine();
+  }
+}
+
+  requestUsername();
+</script>
 </body>
 </html>
