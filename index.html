@@ -691,7 +691,10 @@ function createPromptSpan() {
         updateWindowContent(lastPath)
     } else {
         // fallback if no cookie or invalid value
-        updateAccentColor('#0b85a8');
+        videoToUse = pathVideos["/sog"];
+        colorToUse = pathColors["/sog"];;
+        updateAccentColor("/sog");
+        updateWindowContent("/sog")
     }
 }
 
