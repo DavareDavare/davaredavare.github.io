@@ -1,177 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>davare.xyz</title>
   <style>
-html, body {
-  margin: 0;
-  padding: 1em;
-  height: 100%;
-  overflow: hidden;      /* prevent page scroll */
-  background-color: #292c2e;
-  color: #fafbfa;
-  font-family: monospace;
-}
+    html,
+    body {
+      margin: 0;
+      padding: 1em;
+      height: 100%;
+      overflow: hidden;
+      /* prevent page scroll */
+      background-color: #292c2e;
+      color: #fafbfa;
+      font-family: monospace;
+    }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  height: 95vh;
-  border: 2px solid #0b85a8; /* blue border color */
-  border-radius: 5px;
-  margin: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-}
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: 95vh;
+      border: 2px solid #0b85a8;
+      /* blue border color */
+      border-radius: 5px;
+      margin: 0;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
 
-#terminal-wrapper {
-  flex: 1;
-  overflow-y: auto;          /* scroll only here */
-  padding: 20px 0 20px 40px; /* left padding instead of margin */
-  box-sizing: border-box;
-}
+    #terminal-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      /* scroll only here */
+      padding: 20px 0 20px 40px;
+      /* left padding instead of margin */
+      box-sizing: border-box;
+    }
 
-.terminal {
-  margin-left: 0;            /* remove margin */
-  width: 100%;
-  max-width: none;
-  display: flex;
-  flex-direction: column;
-}
+    .terminal {
+      margin-left: 0;
+      /* remove margin */
+      width: 100%;
+      max-width: none;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* Horizontal container for startup banner + ascii art */
-#banner-container {
-  display: flex;
-  gap: 40px;
-  margin-bottom: 20px;
-  width: 100%;
-  padding-left: 2em; 
-  box-sizing: border-box;
-}
-
-
-#startup-message {
-  flex: 0 0 auto;          /* natural width */
-  white-space: pre;        /* preserve spacing */
-  font-family: monospace;
-  overflow-x: visible;     /* no scroll */
-}
-
-#welcome-message {
-  white-space: pre-line;
-  font-family: monospace;
-  margin-bottom: 1em;
-}
-
-#ascii-gradient {
-  flex: 1 1 0;             /* fill remaining space */
-  white-space: pre;
-  font-weight: bold;
-  line-height: 1.1em;
-
-  background: linear-gradient(270deg, 
-    #ff5f6d, #ffc371, #24c6dc, #514a9d, #ff5f6d);
-  background-size: 1000% 1000%;
-  animation: gradientShift 15s ease infinite;
-
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-
-  user-select: none;
-  min-width: 0;
-  overflow-x: auto;
-  font-family: monospace;
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.line {
-  display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-}
-
-.output {
-  white-space: pre-wrap;
-  margin-left: 2em;
-  margin-bottom: 10px;
-}
-
-.prompt {
-  margin-right: 8px;
-}
-
-input {
-  background: none;
-  border: none;
-  color: #fafbfa;
-  font-family: monospace;
-  font-size: 1em;
-  outline: none;
-  flex-grow: 1;
-}
-a {
-  color: #0b85a8;
-  text-decoration: underline;
-}
-
-.draggable-window {
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  background: #1e1e1e;
-  border: 2px solid #0b85a8;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  color: #fafafa;
-  top: 100px;
-  left: 100px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-}
-
-.draggable-window header {
-  background: #111;   /* darker than content */
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 8px;
-  font-weight: bold;
-  cursor: grab;       /* drag cursor only on header */
-  border-bottom: 1px solid #0b85a8;
-  user-select: none;  /* prevent accidental text selection while dragging */
-}
-
-.draggable-window button {
-  background: none;
-  border: none;
-  color: #ff5f6d;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.draggable-window .content {
-  flex: 1;
-  padding: 6px;
-  cursor: text;  /* normal text selection inside */
-}
+    /* Horizontal container for startup banner + ascii art */
+    #banner-container {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 20px;
+      width: 100%;
+      padding-left: 2em;
+      box-sizing: border-box;
+    }
 
 
+    #startup-message {
+      flex: 0 0 auto;
+      /* natural width */
+      white-space: pre;
+      /* preserve spacing */
+      font-family: monospace;
+      overflow-x: visible;
+      /* no scroll */
+    }
+
+    #welcome-message {
+      white-space: pre-line;
+      font-family: monospace;
+      margin-bottom: 1em;
+    }
+
+    #ascii-gradient {
+      flex: 1 1 0;
+      /* fill remaining space */
+      white-space: pre;
+      font-weight: bold;
+      line-height: 1.1em;
+
+      background: linear-gradient(270deg,
+          #ff5f6d, #ffc371, #24c6dc, #514a9d, #ff5f6d);
+      background-size: 1000% 1000%;
+      animation: gradientShift 15s ease infinite;
+
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      user-select: none;
+      min-width: 0;
+      overflow-x: auto;
+      font-family: monospace;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .line {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .output {
+      white-space: pre-wrap;
+      margin-left: 2em;
+      margin-bottom: 10px;
+    }
+
+    .prompt {
+      margin-right: 8px;
+    }
+
+    input {
+      background: none;
+      border: none;
+      color: #fafbfa;
+      font-family: monospace;
+      font-size: 1em;
+      outline: none;
+      flex-grow: 1;
+    }
+
+    a {
+      color: #0b85a8;
+      text-decoration: underline;
+    }
+
+    .draggable-window {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: #1e1e1e;
+      border: 2px solid #0b85a8;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      color: #fafafa;
+      top: 100px;
+      left: 100px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .draggable-window header {
+      background: #111;
+      /* darker than content */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 8px;
+      font-weight: bold;
+      cursor: grab;
+      /* drag cursor only on header */
+      border-bottom: 1px solid #0b85a8;
+      user-select: none;
+      /* prevent accidental text selection while dragging */
+    }
+
+    .draggable-window button {
+      background: none;
+      border: none;
+      color: #ff5f6d;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .draggable-window .content {
+      flex: 1;
+      padding: 6px;
+      cursor: text;
+      /* normal text selection inside */
+    }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div id="terminal-wrapper">
@@ -181,195 +198,195 @@ a {
     </div>
   </div>
 
-<script>
-  const allowedPaths = ['/mind', '/ldoe', '/alternate-ending', '/isee', '/vibe', '/sog', '/hate'];
-  const allowedPaths2 = ['/mind', '/ldoe', '/alternate-ending', '/why', '/gui'];
-  const terminal = document.getElementById('terminal');
-  let username = 'guest';
-  let highestZ = 10000;
+  <script>
+    const allowedPaths = ['/mind', '/ldoe', '/alternate-ending', '/isee', '/vibe', '/sog', '/hate'];
+    const allowedPaths2 = ['/mind', '/ldoe', '/alternate-ending', '/why', '/gui'];
+    const terminal = document.getElementById('terminal');
+    let username = 'guest';
+    let highestZ = 10000;
 
-  // central accent color
-let ACCENT_COLOR = '#0b85a8'; // central accent color
-let videoToUse = null;
-let colorToUse = null;
+    // central accent color
+    let ACCENT_COLOR = '#0b85a8'; // central accent color
+    let videoToUse = null;
+    let colorToUse = null;
 
-const pathVideos = {
-    '/mind': 'https://www.youtube.com/embed/VIDEO_ID_1',
-    '/ldoe': 'https://www.youtube.com/embed/VIDEO_ID_2',
-    '/alternate-ending': 'https://www.youtube.com/embed/VIDEO_ID_3',
-    '/isee': 'https://www.youtube.com/embed/VIDEO_ID_4',
-    '/vibe': 'https://www.youtube.com/embed/VIDEO_ID_5',
-    '/sog': 'https://www.youtube.com/embed/VIDEO_ID_6',
-    '/hate': 'https://www.youtube.com/embed/VIDEO_ID_7'
-};
+    const pathVideos = {
+      '/mind': 'https://www.youtube.com/embed/NuZoznmvo88?si=YkV6BKksnqq5VSpd',
+      '/ldoe': 'https://www.youtube.com/embed/lR5dwQNizVU?si=At0S_4BjadsRjq9D',
+      '/alternate-ending': 'https://www.youtube.com/embed/cP7_ZDpcBsQ?si=u3-ozoXn9-MljWOa',
+      '/isee': 'https://www.youtube.com/embed/3k9NdEsmV3w?si=HjK7CfT7BuekEZqs',
+      '/vibe': 'https://www.youtube.com/embed/4-pdlpEwMao?si=9b9bqwx_K06jJFg1',
+      '/sog': 'https://www.youtube.com/embed/yNmF0ceHy5Q?si=YNS-biuCqdslc3tb',
+      '/hate': 'https://www.youtube.com/embed/NAY8rl3YL90?si=c3N1IYTB6Yj2srg0'
+    };
 
-const pathColors = {
-  '/mind': '#ff5f6d',
-  '/ldoe': '#ffc371',
-  '/alternate-ending': '#24c6dc',
-  '/isee': '#514a9d',
-  '/vibe': '#ff5f6d',
-  '/sog': '#0b85a8',
-  '/hate': '#a56e31',
-  '/why': '#ff8c00', // example
-  '/gui': '#00ffcc'  // example
-};
+    const pathColors = {
+      '/mind': '#ff5f6d',
+      '/ldoe': '#ffc371',
+      '/alternate-ending': '#24c6dc',
+      '/isee': '#514a9d',
+      '/vibe': '#ff5f6d',
+      '/sog': '#888888',
+      '/hate': '#a56e31',
+      '/why': '#ff8c00', // example
+      '/gui': '#00ffcc'  // example
+    };
 
 
-function updateAccentColor(newColor) {
-    ACCENT_COLOR = newColor;
-    document.querySelectorAll('.prompt span:first-child').forEach(el => {
+    function updateAccentColor(newColor) {
+      ACCENT_COLOR = newColor;
+      document.querySelectorAll('.prompt span:first-child').forEach(el => {
         el.style.color = ACCENT_COLOR;
-    });
-    document.querySelectorAll('.draggable-window, .draggable-window header').forEach(el => {
+      });
+      document.querySelectorAll('.draggable-window, .draggable-window header').forEach(el => {
         el.style.borderColor = ACCENT_COLOR;
-    });
-    document.querySelectorAll('a').forEach(a => a.style.color = ACCENT_COLOR);
-    const container = document.querySelector('.container');
-    if (container) container.style.borderColor = ACCENT_COLOR;
-}
+      });
+      document.querySelectorAll('a').forEach(a => a.style.color = ACCENT_COLOR);
+      const container = document.querySelector('.container');
+      if (container) container.style.borderColor = ACCENT_COLOR;
+    }
 
-function makeDraggableWindow() {
-  const win = document.createElement('div');
-  win.className = 'draggable-window';
-  win.style.zIndex = highestZ++;
+    function makeDraggableWindow() {
+      const win = document.createElement('div');
+      win.className = 'draggable-window';
+      win.style.zIndex = highestZ++;
 
-  // Initial position
-  let winPos = { left: 100, top: 100 };
-  const posCookie = getCookie('windowPosition');
-  if (posCookie) {
-    try {
-      const pos = JSON.parse(decodeURIComponent(posCookie));
-      if (pos.left !== undefined && pos.top !== undefined) {
-        winPos.left = pos.left;
-        winPos.top = pos.top;
+      // Initial position
+      let winPos = { left: 100, top: 100 };
+      const posCookie = getCookie('windowPosition');
+      if (posCookie) {
+        try {
+          const pos = JSON.parse(decodeURIComponent(posCookie));
+          if (pos.left !== undefined && pos.top !== undefined) {
+            winPos.left = pos.left;
+            winPos.top = pos.top;
+          }
+        } catch { }
       }
-    } catch {}
-  }
-  win.style.left = winPos.left + 'px';
-  win.style.top = winPos.top + 'px';
+      win.style.left = winPos.left + 'px';
+      win.style.top = winPos.top + 'px';
 
-  // Bring to front on click
-  win.addEventListener('mousedown', () => {
-    win.style.zIndex = highestZ++;
-  });
+      // Bring to front on click
+      win.addEventListener('mousedown', () => {
+        win.style.zIndex = highestZ++;
+      });
 
-  const header = document.createElement('header');
-  header.textContent = 'Music';
+      const header = document.createElement('header');
+      header.textContent = 'Music';
 
-  const closeBtn = document.createElement('button');
-  closeBtn.textContent = '✖';
-  closeBtn.onclick = () => win.remove();
-  header.appendChild(closeBtn);
-  win.appendChild(header);
+      const closeBtn = document.createElement('button');
+      closeBtn.textContent = '✖';
+      closeBtn.onclick = () => win.remove();
+      header.appendChild(closeBtn);
+      win.appendChild(header);
 
-  const content = document.createElement('div');
-  content.className = 'content';
+      const content = document.createElement('div');
+      content.className = 'content';
 
-  // Use global video/color if available
-  if (videoToUse) {
-    content.innerHTML = `<iframe width="100%" height="100%" src="${videoToUse}" frameborder="0" allowfullscreen></iframe>`;
-  } else {
-    content.textContent = "You have to change folder first -> see \"help cd\"";
-  }
+      // Use global video/color if available
+      if (videoToUse) {
+        content.innerHTML = `<iframe width="100%" height="100%" src="${videoToUse}" frameborder="0" allowfullscreen></iframe>`;
+      } else {
+        content.textContent = "You have to change folder first -> see \"help cd\"";
+      }
 
-  win.appendChild(content);
+      win.appendChild(content);
 
-  // Apply border color from global variable or fallback
-  const borderColor = colorToUse || ACCENT_COLOR;
-  win.style.borderColor = borderColor;
-  header.style.borderBottomColor = borderColor;
+      // Apply border color from global variable or fallback
+      const borderColor = colorToUse || ACCENT_COLOR;
+      win.style.borderColor = borderColor;
+      header.style.borderBottomColor = borderColor;
 
-  document.body.appendChild(win);
+      document.body.appendChild(win);
 
-  // Dragging logic
-  let offsetX = 0, offsetY = 0, dragging = false;
+      // Dragging logic
+      let offsetX = 0, offsetY = 0, dragging = false;
 
-  header.onmousedown = (e) => {
-    dragging = true;
-    offsetX = e.clientX - winPos.left;
-    offsetY = e.clientY - winPos.top;
+      header.onmousedown = (e) => {
+        dragging = true;
+        offsetX = e.clientX - winPos.left;
+        offsetY = e.clientY - winPos.top;
 
-    document.onmousemove = (ev) => {
-      if (!dragging) return;
-      winPos.left = ev.clientX - offsetX;
-      winPos.top = ev.clientY - offsetY;
-      win.style.left = winPos.left + "px";
-      win.style.top = winPos.top + "px";
-      setCookie('windowPosition', JSON.stringify(winPos), 365);
-    };
+        document.onmousemove = (ev) => {
+          if (!dragging) return;
+          winPos.left = ev.clientX - offsetX;
+          winPos.top = ev.clientY - offsetY;
+          win.style.left = winPos.left + "px";
+          win.style.top = winPos.top + "px";
+          setCookie('windowPosition', JSON.stringify(winPos), 365);
+        };
 
-    document.onmouseup = () => {
-      dragging = false;
-      document.onmousemove = null;
-      document.onmouseup = null;
-      setCookie('windowPosition', JSON.stringify(winPos), 365);
-    };
-  };
-}
+        document.onmouseup = () => {
+          dragging = false;
+          document.onmousemove = null;
+          document.onmouseup = null;
+          setCookie('windowPosition', JSON.stringify(winPos), 365);
+        };
+      };
+    }
 
 
-function updateWindowContent(path) {
-    const win = document.querySelector('.draggable-window');
-    if (!win) return; 
+    function updateWindowContent(path) {
+      const win = document.querySelector('.draggable-window');
+      if (!win) return;
 
-    const accentColor = pathColors[path] || '#0b85a8'; // fallback
+      const accentColor = pathColors[path] || '#0b85a8'; // fallback
 
-    // Update border/header color
-    win.style.borderColor = accentColor;
-    win.querySelector('header').style.borderBottomColor = accentColor;
+      // Update border/header color
+      win.style.borderColor = accentColor;
+      win.querySelector('header').style.borderBottomColor = accentColor;
 
-    // Update content with YouTube video
-    const content = win.querySelector('.content');
-    const videoUrl = pathVideos[path] || '';
-    content.innerHTML = videoUrl 
+      // Update content with YouTube video
+      const content = win.querySelector('.content');
+      const videoUrl = pathVideos[path] || '';
+      content.innerHTML = videoUrl
         ? `<iframe width="100%" height="100%" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`
         : 'No video for this path';
-    
-    // Optionally update links and prompt colors as well
-    updateAccentColor(accentColor);
-}
 
-
-  // ---------- Cookie Helpers ----------
-  function setCookie(name, value, days) {
-    const d = new Date();
-    d.setTime(d.getTime() + (days*24*60*60*1000));
-    document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
-  }
-
-  function getCookie(name) {
-    const decoded = decodeURIComponent(document.cookie);
-    const parts = decoded.split(';');
-    for (let p of parts) {
-      let [k, v] = p.trim().split('=');
-      if (k === name) return v;
+      // Optionally update links and prompt colors as well
+      updateAccentColor(accentColor);
     }
-    return null;
-  }
 
-  // ---------- Command History ----------
-  let history = [];
-  let historyIndex = -1;
 
-  function loadHistory() {
-    const saved = getCookie('history');
-    if (saved) {
-      try {
-        history = JSON.parse(saved);
-      } catch {
-        history = [];
+    // ---------- Cookie Helpers ----------
+    function setCookie(name, value, days) {
+      const d = new Date();
+      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+      document.cookie = `${name}=${encodeURIComponent(value)};expires=${d.toUTCString()};path=/`;
+    }
+
+    function getCookie(name) {
+      const decoded = decodeURIComponent(document.cookie);
+      const parts = decoded.split(';');
+      for (let p of parts) {
+        let [k, v] = p.trim().split('=');
+        if (k === name) return v;
+      }
+      return null;
+    }
+
+    // ---------- Command History ----------
+    let history = [];
+    let historyIndex = -1;
+
+    function loadHistory() {
+      const saved = getCookie('history');
+      if (saved) {
+        try {
+          history = JSON.parse(saved);
+        } catch {
+          history = [];
+        }
       }
     }
-  }
 
-  function saveHistory() {
-    const trimmed = history.slice(-10); // keep only last 10
-    setCookie('history', JSON.stringify(trimmed), 365);
-  }
+    function saveHistory() {
+      const trimmed = history.slice(-10); // keep only last 10
+      setCookie('history', JSON.stringify(trimmed), 365);
+    }
 
-  // ---------- Startup Logic ----------
-  const startupAscii = `
+    // ---------- Startup Logic ----------
+    const startupAscii = `
 ██████╗  █████╗ ██╗   ██╗ █████╗ ██████╗ ███████╗   ██╗  ██╗██╗   ██╗███████╗
 ██╔══██╗██╔══██╗██║   ██║██╔══██╗██╔══██╗██╔════╝   ╚██╗██╔╝╚██╗ ██╔╝╚══███╔╝
 ██║  ██║███████║██║   ██║███████║██████╔╝█████╗      ╚███╔╝  ╚████╔╝   ███╔╝ 
@@ -381,7 +398,7 @@ Type 'help' to see available commands.
 Change the current folder to 'gui' or press here, to move to a UI version of this website.
 `;
 
-  const rightAscii = `
+    const rightAscii = `
                          :::                       
                         ::::                       
                       ::::                         
@@ -398,308 +415,451 @@ Change the current folder to 'gui' or press here, to move to a UI version of thi
            ::::::::::::      -:::   ::::
 `;
 
-  function printStartupMessage() {
-    if (document.getElementById('banner-container')) return;
+    function printStartupMessage() {
+      if (document.getElementById('banner-container')) return;
 
-    const bannerContainer = document.createElement('div');
-    bannerContainer.id = 'banner-container';
+      const bannerContainer = document.createElement('div');
+      bannerContainer.id = 'banner-container';
 
-    const leftDiv = document.createElement('div');
-    leftDiv.id = 'startup-message';
+      const leftDiv = document.createElement('div');
+      leftDiv.id = 'startup-message';
 
-    const welcomeMessage = document.createElement('div');
-    welcomeMessage.id = 'welcome-message';
-    welcomeMessage.textContent = `${username}, welcome to\n`;
-    leftDiv.appendChild(welcomeMessage);
+      const welcomeMessage = document.createElement('div');
+      welcomeMessage.id = 'welcome-message';
+      welcomeMessage.textContent = `${username}, welcome to\n`;
+      leftDiv.appendChild(welcomeMessage);
 
-    const asciiArtPre = document.createElement('pre');
-    asciiArtPre.style.margin = '0';
-    asciiArtPre.innerHTML = startupAscii.replace(
-      'press here, to move to a UI version of this website.',
-      'press <a href="/gui" id="gui-link">here</a>, to move to a UI version of this website.'
-    );
-    leftDiv.appendChild(asciiArtPre);
+      const asciiArtPre = document.createElement('pre');
+      asciiArtPre.style.margin = '0';
+      asciiArtPre.innerHTML = startupAscii.replace(
+        'press here, to move to a UI version of this website.',
+        'press <a href="/gui" id="gui-link">here</a>, to move to a UI version of this website.'
+      );
+      leftDiv.appendChild(asciiArtPre);
 
-    const rightDiv = document.createElement('div');
-    rightDiv.id = 'ascii-gradient';
-    rightDiv.textContent = rightAscii;
+      const rightDiv = document.createElement('div');
+      rightDiv.id = 'ascii-gradient';
+      rightDiv.textContent = rightAscii;
 
-    bannerContainer.appendChild(leftDiv);
-    bannerContainer.appendChild(rightDiv);
-    terminal.appendChild(bannerContainer);
-  }
+      bannerContainer.appendChild(leftDiv);
+      bannerContainer.appendChild(rightDiv);
+      terminal.appendChild(bannerContainer);
+    }
 
-  function requestUsername() {
-    const line = document.createElement('div');
-    line.className = 'line';
+    function requestUsername() {
+      const line = document.createElement('div');
+      line.className = 'line';
 
-    const prompt = document.createElement('span');
-    prompt.className = 'prompt';
-    prompt.textContent = 'Enter your name: ';
+      const prompt = document.createElement('span');
+      prompt.className = 'prompt';
+      prompt.textContent = 'Enter your name: ';
 
-    const input = document.createElement('input');
-    input.type = 'text';
+      const input = document.createElement('input');
+      input.type = 'text';
 
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        username = input.value.trim() || 'guest';
-        setCookie('username', username, 365);
-        input.disabled = true;
-        simulateCommand('banner', printStartupMessage);
-      }
-    });
-
-    line.appendChild(prompt);
-    line.appendChild(input);
-    terminal.appendChild(line);
-    input.focus();
-  }
-
-function createPromptSpan() {
-    const prompt = document.createElement('span');
-    prompt.className = 'prompt';
-
-    const usernameSpan = document.createElement('span');
-    usernameSpan.textContent = username;
-    usernameSpan.style.color = ACCENT_COLOR; // <- use dynamic color
-
-    const restSpan = document.createElement('span');
-    restSpan.textContent = '@davare.xyz:$ ~';
-    restSpan.style.color = '#a56e31'; // optional secondary color
-
-    prompt.appendChild(usernameSpan);
-    prompt.appendChild(restSpan);
-    return prompt;
-}
-
-
-  function simulateCommand(commandText, callback) {
-    const line = document.createElement('div');
-    line.className = 'line';
-
-    const prompt = createPromptSpan();
-    const input = document.createElement('span');
-    input.textContent = commandText;
-
-    line.appendChild(prompt);
-    line.appendChild(input);
-    terminal.appendChild(line);
-
-    callback();
-    createPromptLine();
-  }
-
-  function createPromptLine() {
-    const line = document.createElement('div');
-    line.className = 'line';
-
-    const prompt = createPromptSpan();
-    const input = document.createElement('input');
-    input.type = 'text';
-
-    input.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter') {
-        const command = input.value.trim();
-        if (command) {
-          history.push(command);
-          saveHistory();
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          username = input.value.trim() || 'guest';
+          setCookie('username', username, 365);
+          input.disabled = true;
+          simulateCommand('banner', printStartupMessage);
         }
-        historyIndex = -1;
-        input.disabled = true;
-        handleCommand(command, line);
-      } else if (e.key === 'ArrowUp') {
-        if (history.length > 0) {
-          if (historyIndex === -1) historyIndex = history.length;
-          historyIndex = Math.max(0, historyIndex - 1);
-          input.value = history[historyIndex];
-        }
-        e.preventDefault();
-      } else if (e.key === 'ArrowDown') {
-        if (history.length > 0 && historyIndex !== -1) {
-          historyIndex = Math.min(history.length, historyIndex + 1);
-          if (historyIndex === history.length) {
-            input.value = '';
-            historyIndex = -1;
-          } else {
+      });
+
+      line.appendChild(prompt);
+      line.appendChild(input);
+      terminal.appendChild(line);
+      input.focus();
+    }
+
+    function createPromptSpan() {
+      const prompt = document.createElement('span');
+      prompt.className = 'prompt';
+
+      const usernameSpan = document.createElement('span');
+      usernameSpan.textContent = username;
+      usernameSpan.style.color = ACCENT_COLOR; // <- use dynamic color
+
+      const restSpan = document.createElement('span');
+      restSpan.textContent = '@davare.xyz:$ ~';
+      restSpan.style.color = '#a56e31'; // optional secondary color
+
+      prompt.appendChild(usernameSpan);
+      prompt.appendChild(restSpan);
+      return prompt;
+    }
+
+
+    function simulateCommand(commandText, callback) {
+      const line = document.createElement('div');
+      line.className = 'line';
+
+      const prompt = createPromptSpan();
+      const input = document.createElement('span');
+      input.textContent = commandText;
+
+      line.appendChild(prompt);
+      line.appendChild(input);
+      terminal.appendChild(line);
+
+      callback();
+      createPromptLine();
+    }
+
+    function createPromptLine() {
+      const line = document.createElement('div');
+      line.className = 'line';
+
+      const prompt = createPromptSpan();
+      const input = document.createElement('input');
+      input.type = 'text';
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          const command = input.value.trim();
+          if (command) {
+            history.push(command);
+            saveHistory();
+          }
+          historyIndex = -1;
+          input.disabled = true;
+          handleCommand(command, line);
+        } else if (e.key === 'ArrowUp') {
+          if (history.length > 0) {
+            if (historyIndex === -1) historyIndex = history.length;
+            historyIndex = Math.max(0, historyIndex - 1);
             input.value = history[historyIndex];
           }
+          e.preventDefault();
+        } else if (e.key === 'ArrowDown') {
+          if (history.length > 0 && historyIndex !== -1) {
+            historyIndex = Math.min(history.length, historyIndex + 1);
+            if (historyIndex === history.length) {
+              input.value = '';
+              historyIndex = -1;
+            } else {
+              input.value = history[historyIndex];
+            }
+          }
+          e.preventDefault();
         }
-        e.preventDefault();
-      }
-    });
+      });
 
-    line.appendChild(prompt);
-    line.appendChild(input);
-    terminal.appendChild(line);
-    input.focus();
-    terminal.scrollTop = terminal.scrollHeight;
-  }
-
-  function clearTerminalExceptStartup() {
-    const banner = document.getElementById('banner-container');
-    if (!banner) return;
-    let next = banner.nextSibling;
-    while (next) {
-      const toRemove = next;
-      next = next.nextSibling;
-      terminal.removeChild(toRemove);
+      line.appendChild(prompt);
+      line.appendChild(input);
+      terminal.appendChild(line);
+      input.focus();
+      terminal.scrollTop = terminal.scrollHeight;
     }
-  }
 
-  // ---------- Commands ----------
-  function handleCommand(cmd, line) {
-    const output = document.createElement('div');
-    output.className = 'output';
+    function clearTerminalExceptStartup() {
+      const banner = document.getElementById('banner-container');
+      if (!banner) return;
+      let next = banner.nextSibling;
+      while (next) {
+        const toRemove = next;
+        next = next.nextSibling;
+        terminal.removeChild(toRemove);
+      }
+    }
 
-    const parts = cmd.trim().split(/\s+/);
-    const baseCmd = parts[0].toLowerCase();
-    const arg = parts[1];
+    // ---------- Commands ----------
+    function handleCommand(cmd, line) {
+      const output = document.createElement('div');
+      output.className = 'output';
 
-    const commandHelps = {
-    help: "Shows a list of available commands or detailed help for a specific command. Usage: 'help [command]'",
-    summary: "Displays a short summary/about information.",
-    test: "Executes a test command to check functionality.",
-    cls: "Clears the terminal screen. Alias: 'clear'.",
-    clear: "Clears the terminal screen. Alias: 'cls'.",
-    pwd: "Prints the current directory.",
-    ls: "Lists available paths/folders.",
-    cd: "Changes directory to a existing playlist -> see \"ls\". Usage: 'cd <path>'",
-    date: "Displays the current date and time.",
-    echo: "Prints the given text. Usage: 'echo <text>'",
-    whoami: "Displays the current username.",
-    calc: "Evaluates a math expression. Usage: 'calc <expression>'",
-    usermod: "Changes the username. Usage: 'usermod <newName>'",
-    history: "Shows the command history (up to last 10).",
-    music: "Opens the music player for the selected mode. You can switch between modes via the \"cd\" command. To see the available modes, use \"ls\""
-  };
+      const parts = cmd.trim().split(/\s+/);
+      const baseCmd = parts[0].toLowerCase();
+      const arg = parts[1];
 
-    switch (baseCmd) {
-      case 'help':
-        if (arg && commandHelps[arg]) {
-          output.textContent = `${arg}: ${commandHelps[arg]}`;
-        } else {
-          output.textContent = 'Available commands:\n' + Object.keys(commandHelps).join('\n') +
-            "\nType 'help <command>' for detailed info on a command.";
-        }
-        break;
-      case 'summary':
-        output.textContent = 'TODO: ADD ABOUT ME';
-        break;
-      case 'test':
-        output.textContent = 'Test command executed successfully!';
-        break;
-      case 'cls':
-      case 'clear':
-        clearTerminalExceptStartup();
-        createPromptLine();
-        return;
-      case 'pwd':
-        output.textContent = '/home/davare.xyz';
-        break;
-      case 'ls':
-        output.textContent = allowedPaths.join('\n');
-        break;
-      case 'cd':
-        if (!arg) {
+      const commandHelps = {
+        help: "Shows a list of available commands or detailed help for a specific command. Usage: 'help [command]'",
+        summary: "Displays a short summary/about information.",
+        test: "Executes a test command to check functionality.",
+        cls: "Clears the terminal screen. Alias: 'clear'.",
+        clear: "Clears the terminal screen. Alias: 'cls'.",
+        pwd: "Prints the current directory.",
+        ls: "Lists available paths/folders.",
+        cd: "Changes directory to a existing playlist -> see \"ls\". Usage: 'cd <path>'",
+        date: "Displays the current date and time.",
+        echo: "Prints the given text. Usage: 'echo <text>'",
+        whoami: "Displays the current username.",
+        calc: "Evaluates a math expression. Usage: 'calc <expression>'",
+        usermod: "Changes the username. Usage: 'usermod <newName>'",
+        history: "Shows the command history (up to last 10).",
+        music: "Opens the music player for the selected mode. You can switch between modes via the \"cd\" command. To see the available modes, use \"ls\""
+      };
+
+      switch (baseCmd) {
+        case 'help':
+          if (arg && commandHelps[arg]) {
+            output.textContent = `${arg}: ${commandHelps[arg]}`;
+          } else {
+            output.textContent = 'Available commands:\n' + Object.keys(commandHelps).join('\n') +
+              "\nType 'help <command>' for detailed info on a command.";
+          }
+          break;
+        case 'summary':
+          output.textContent = 'TODO: ADD ABOUT ME';
+          break;
+        case 'test':
+          output.textContent = 'Test command executed successfully!';
+          break;
+        case 'cls':
+        case 'clear':
+          clearTerminalExceptStartup();
+          createPromptLine();
+          return;
+        case 'pwd':
+          output.textContent = '/home/davare.xyz';
+          break;
+        case 'ls':
+          output.textContent = allowedPaths.join('\n');
+          break;
+        case 'cd':
+          if (!arg) {
             output.textContent = 'cd: missing argument';
-        } else {
+          } else {
             const targetPath = arg.startsWith('/') ? arg : '/' + arg;
             if (allowedPaths.includes(targetPath)) {
-                setCookie('lastPath', targetPath, 365); // save in cookie
-                output.textContent = `Changed directory to ${targetPath}`;
-                // update window content
-                updateWindowContent(targetPath);
-                updateAccentColor(pathColors[targetPath] || '#0b85a8');
-                videoToUse = pathVideos[targetPath];
-                colorToUse = pathColors[targetPath] || ACCENT_COLOR;
+              setCookie('lastPath', targetPath, 365);
+              output.textContent = `Changed directory to ${targetPath}`;
+              updateWindowContent(targetPath);
+              updateAccentColor(pathColors[targetPath] || '#0b85a8');
+              videoToUse = pathVideos[targetPath];
+              colorToUse = pathColors[targetPath] || ACCENT_COLOR;
+
+              if (targetPath === '/sog') {
+                makeSogWindow(); // open sog window
               } else {
-                output.textContent = `cd: no such directory: ${arg}`;
+                // ✅ if leaving /sog, close it
+                const sogWin = document.querySelector('.sog-window');
+                if (sogWin) sogWin.remove();
+              }
+            } else {
+              output.textContent = `cd: no such directory: ${arg}`;
             }
+      }
+      break;
+        case 'date':
+      output.textContent = new Date().toString();
+      break;
+        case 'echo':
+      output.textContent = parts.slice(1).join(' ');
+      break;
+        case 'whoami':
+      output.textContent = username;
+      break;
+        case 'calc':
+      try {
+        const expression = parts.slice(1).join(' ');
+        const result = eval(expression);
+        output.textContent = `Result: ${result}`;
+      } catch {
+        output.textContent = 'calc: invalid expression';
+      }
+      break;
+        case 'usermod':
+      if (!arg) {
+        output.textContent = 'usermod: missing new username';
+      } else {
+        username = arg;
+        setCookie('username', username, 365);
+        output.textContent = `Username changed to '${username}'`;
+        const welcomeMsg = document.getElementById('welcome-message');
+        if (welcomeMsg) {
+          welcomeMsg.textContent = `${username}, welcome to\n`;
         }
-        break;
-      case 'date':
-        output.textContent = new Date().toString();
-        break;
-      case 'echo':
-        output.textContent = parts.slice(1).join(' ');
-        break;
-      case 'whoami':
-        output.textContent = username;
-        break;
-      case 'calc':
-        try {
-          const expression = parts.slice(1).join(' ');
-          const result = eval(expression);
-          output.textContent = `Result: ${result}`;
-        } catch {
-          output.textContent = 'calc: invalid expression';
-        }
-        break;
-      case 'usermod':
-        if (!arg) {
-          output.textContent = 'usermod: missing new username';
-        } else {
-          username = arg;
-          setCookie('username', username, 365);
-          output.textContent = `Username changed to '${username}'`;
-          const welcomeMsg = document.getElementById('welcome-message');
-          if (welcomeMsg) {
-            welcomeMsg.textContent = `${username}, welcome to\n`;
-          }
-        }
-        break;
-      case 'history':
-        if (history.length === 0) {
-          output.textContent = '(empty history)';
-        } else {
-          output.textContent = history.map((h, i) => `${i+1}  ${h}`).join('\n');
-        }
-        break;
-      case 'music':
-        makeDraggableWindow();
-        output.textContent = 'Opened the music player.';
-        break;
-      default:
-        output.textContent = `Command not found: ${cmd}`;
+      }
+      break;
+        case 'history':
+      if (history.length === 0) {
+        output.textContent = '(empty history)';
+      } else {
+        output.textContent = history.map((h, i) => `${i + 1}  ${h}`).join('\n');
+      }
+      break;
+        case 'music':
+      makeDraggableWindow();
+      output.textContent = 'Opened the music player.';
+      break;
+        default:
+      output.textContent = `Command not found: ${cmd}`;
     }
     terminal.appendChild(output);
     createPromptLine();
-  }
+    }
 
-  // ---------- Init ----------
-  loadHistory();
+    // ---------- Init ----------
+    loadHistory();
 
-  const savedUser = getCookie('username');
-  if (savedUser) {
-    username = savedUser;
-    applyLastPathColor();
-    printStartupMessage();
-    createPromptLine();
-  } else {
-    requestUsername();
-  }
+    const savedUser = getCookie('username');
+    if (savedUser) {
+      username = savedUser;
+      applyLastPathColor();
+      printStartupMessage();
+      createPromptLine();
+    } else {
+      requestUsername();
+    }
 
-  function applyLastPathColor() {
-    // Get last path from cookie
-    const lastPath = getCookie('lastPath');
+    function applyLastPathColor() {
+      // Get last path from cookie
+      const lastPath = getCookie('lastPath');
 
-    if (lastPath && pathColors[lastPath]) {
+      if (lastPath && pathColors[lastPath]) {
         // Update accent color based on pathColors
         videoToUse = pathVideos[lastPath];
         colorToUse = pathColors[lastPath] || ACCENT_COLOR;
         updateAccentColor(pathColors[lastPath]);
         updateWindowContent(lastPath)
-    } else {
+      } else {
         // fallback if no cookie or invalid value
         videoToUse = pathVideos["/sog"];
         colorToUse = pathColors["/sog"];;
         updateAccentColor("/sog");
         updateWindowContent("/sog")
+      }
     }
+
+ function makeSogWindow() {
+  // prevent duplicates
+  if (document.querySelector('.sog-window')) return;
+
+  const win = document.createElement('div');
+  win.className = 'draggable-window sog-window';
+  win.style.width = '520px';   // wide
+  win.style.height = '70px';   // short
+  win.style.zIndex = highestZ++;
+  win.style.left = '150px';
+  win.style.top = '150px';
+
+  // header (no close button)
+  const header = document.createElement('header');
+  header.textContent = 'Stages of Grief';
+  win.appendChild(header);
+
+  // Apply initial SOG accent color
+  const initialColor = pathColors['/sog'] || ACCENT_COLOR;
+  win.style.borderColor = initialColor;
+  header.style.borderBottomColor = initialColor;
+  updateAccentColor(initialColor);
+
+  // content area with 5 buttons in a row
+  const content = document.createElement('div');
+  content.className = 'content';
+  content.style.display = 'flex';
+  content.style.flexDirection = 'row';
+  content.style.justifyContent = 'space-around';
+  content.style.alignItems = 'center';
+  content.style.gap = '10px';
+
+  // greyscale shades from bright to dark
+  const buttonShades = ['#999999', '#888888', '#666666', '#555555', '#444444'];
+  const buttonVideos = [
+    'https://www.youtube.com/embed/yNmF0ceHy5Q?si=YNS-biuCqdslc3tb',
+    'https://www.youtube.com/embed/N5dOy9FGtDg?si=ftDlu5cqPOwmytpk',
+    'https://www.youtube.com/embed/hvV-8Ca-10E?si=EHjlzk7lolUojjAs',
+    'https://www.youtube.com/embed/qCUhSPcoCcU?si=kWByAB3RV4z2ZuEK',
+    'https://www.youtube.com/embed/yfuma2Vg6bI?si=Elvvcrx1DDhFTo8h'
+  ];
+
+  const stageNames = ["denial", "anger", "bargaining", "depression", "acceptance"];
+  let activeButton = null;
+
+  for (let i = 0; i < 5; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = stageNames[i];
+    btn.style.padding = '6px 12px';
+    btn.style.border = 'none';
+    btn.style.background = '#2b2b2b';
+    btn.style.color = '#fafafa';
+    btn.style.cursor = 'pointer';
+    btn.style.borderBottom = `3px solid ${buttonShades[i]}`;
+    btn.style.fontFamily = 'monospace';
+    btn.style.fontSize = '14px';
+    btn.style.flex = '1';
+
+    // Set first button as active initially
+    if (i === 0) {
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.style.cursor = 'not-allowed';
+      activeButton = btn;
+
+      // Apply first button's color as initial accent
+      updateAccentColor(buttonShades[i]);
+    }
+
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+
+      // re-enable previously active button
+      if (activeButton) {
+        activeButton.disabled = false;
+        activeButton.style.opacity = '1';
+        activeButton.style.cursor = 'pointer';
+      }
+
+      // disable new active button
+      btn.disabled = true;
+      btn.style.opacity = '0.6';
+      btn.style.cursor = 'not-allowed';
+      activeButton = btn;
+
+      // update accent color on whole page
+      updateAccentColor(buttonShades[i]);
+
+      // update MUSIC window iframe only
+      const musicWin = document.querySelector('.draggable-window:not(.sog-window)');
+      if (musicWin) {
+        const contentDiv = musicWin.querySelector('.content');
+        contentDiv.innerHTML = `<iframe width="100%" height="100%" src="${buttonVideos[i]}" frameborder="0" allowfullscreen></iframe>`;
+      }
+    });
+
+    content.appendChild(btn);
+  }
+
+  win.appendChild(content);
+  document.body.appendChild(win);
+
+  // make draggable
+  let offsetX = 0, offsetY = 0, dragging = false, winPos = { left: 150, top: 150 };
+
+  header.onmousedown = (e) => {
+    dragging = true;
+    offsetX = e.clientX - winPos.left;
+    offsetY = e.clientY - winPos.top;
+
+    document.onmousemove = (ev) => {
+      if (!dragging) return;
+      winPos.left = ev.clientX - offsetX;
+      winPos.top = ev.clientY - offsetY;
+      win.style.left = winPos.left + 'px';
+      win.style.top = winPos.top + 'px';
+    };
+
+    document.onmouseup = () => {
+      dragging = false;
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
+
+  // bring to front on click
+  win.addEventListener('mousedown', () => {
+    win.style.zIndex = highestZ++;
+  });
 }
 
-// Call it on startup
-</script>
+
+
+
+
+    // Call it on startup
+  </script>
 
 </body>
+
 </html>
