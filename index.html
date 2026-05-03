@@ -186,10 +186,127 @@
       cursor: text;
       /* normal text selection inside */
     }
+
+    /* --- GALLERY LAYER --- */
+#gallery-layer {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 5;
+  display: none;
+  overflow-y: auto;
+  padding: 40px;
+}
+
+#gallery-layer.active {
+  display: block;
+}
+
+/* minimalist grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 40px;
+}
+
+/* sketchy image look */
+.gallery-grid img {
+  width: 100%;
+  filter: grayscale(100%) contrast(120%);
+  mix-blend-mode: screen;
+  transition: transform 0.2s ease;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.05) rotate(-1deg);
+}
+
+#page-peel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  z-index: 20;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+#page-peel svg {
+  width: 100%;
+  height: 100%;
+}
+
+#peel-path {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawPeel 2s infinite alternate ease-in-out;
+}
+
+@keyframes drawPeel {
+  from { stroke-dashoffset: 200; }
+  to   { stroke-dashoffset: 0; }
+}
+
+#gallery-layer {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 5;
+  overflow-y: auto;
+  padding: 60px;
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 0.6s cubic-bezier(.8,0,.2,1);
+}
+
+#gallery-layer.active {
+  clip-path: inset(0 0 0 0);
+}
+
+/* grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 60px;
+}
+
+/* raw image style */
+.gallery-grid img {
+  width: 100%;
+  filter: grayscale(100%) contrast(140%);
+  mix-blend-mode: screen;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.gallery-grid img:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+@keyframes jitter {
+  from { transform: translate(0px, 0px); }
+  to   { transform: translate(1px, -1px); }
+}
+
   </style>
 </head>
 
 <body>
+  <div id="gallery-layer">
+  <div class="gallery-grid" id="gallery"></div>
+</div>
+
+<div id="page-peel">
+  <svg viewBox="0 0 100 100">
+    <path id="peel-path"
+      d="M100 0 Q60 10 10 60 Q5 90 100 100"
+      stroke="white"
+      stroke-width="2"
+      fill="none"
+      stroke-linecap="round"/>
+  </svg>
+</div>
+
   <div class="container">
     <div id="terminal-wrapper">
       <div class="terminal" id="terminal">
@@ -594,7 +711,8 @@ Change the current folder to 'gui' or press here, to move to a UI version of thi
       calc: "Evaluates a math expression. Usage: 'calc <expression>'",
       usermod: "Changes the username. Usage: 'usermod <newName>'",
       history: "Shows the command history (up to last 10).",
-      music: "Opens the music player for the selected mode. You can switch between modes via the \"cd\" command. To see the available modes, use \"ls\""
+      music: "Opens the music player for the selected mode. You can switch between modes via the \"cd\" command. To see the available modes, use \"ls\"",
+      gallery: "Opens the drawing gallery."
     };
 
     switch (baseCmd) {
@@ -704,12 +822,24 @@ Change the current folder to 'gui' or press here, to move to a UI version of thi
         output.textContent = 'Opened the music player.';
         break;
 
+      case 'gallery':
+        openGallery();
+        output.textContent = 'Opening gallery...';
+        break;
+
       default:
         output.textContent = `Command not found: ${cmd}`;
     }
 
     terminal.appendChild(output);
     createPromptLine();
+  }
+
+  // ---------------- Gallery Toggle ----------------
+  function openGallery() {
+    const layer = document.getElementById('gallery-layer');
+    if (!layer) return;
+    layer.classList.toggle('active');
   }
 
 
@@ -879,8 +1009,221 @@ Change the current folder to 'gui' or press here, to move to a UI version of thi
     });
   }
 
-  // ---------------- End of script ----------------
-  // Call it on startup (initialization above already executed)
+const images = [
+  // 2025-08
+  "1-02_08_25.jpg",
+  "2-02_08_25.jpg",
+  "3-02_08_25.jpg",
+  "4-02_08_25.jpg",
+  "5-02_08_25.jpg",
+  "6-02_08_25.jpg",
+  "7-02_08_25.jpg",
+  "8-02_08_25.jpg",
+  "9-02_08_25.jpg",
+  "10-02_08_25.jpg",
+  "11-02_08_25.jpg",
+  "12-02_08_25.jpg",
+  "13-02_08_25.jpg",
+  "14-02_08_25.jpg",
+
+  "1-03_08_25.jpg",
+  "2-03_08_25.jpg",
+  "3-03_08_25.jpg",
+  "4-03_08_25.jpg",
+  "5-03_08_25.jpg",
+  "6-03_08_25.jpg",
+  "7-03_08_25.jpg",
+  "8-03_08_25.jpg",
+  "9-03_08_25.jpg",
+  "10-03_08_25.jpg",
+  "11-03_08_25.jpg",
+  "12-03_08_25.jpg",
+  "13-03_08_25.jpg",
+  "14-03_08_25.jpg",
+  "15-03_08_25.jpg",
+
+  "I SEE EYES EVERYWHERE-13_08_25.jpg",
+
+  "1-04_08_25.jpg",
+  "1-06_08_25.jpg",
+  "1-07_08_25.jpg",
+  "1-13_08_25.jpg",
+  "1-15_08_25.jpg",
+  "1-18_08_25.jpg",
+  "1-24_08_25.jpg",
+  "1-31_08_25.jpg",
+  "2-31_08_25.jpg",
+  "3-31_08_25.jpg",
+
+  // 2025-09
+  "1-02_09_25.jpg",
+  "2-02_09_25.jpg",
+  "3-02_09_25.jpg",
+
+  "1-03_09_25.jpg",
+
+  "1-05_09_25.jpg",
+  "2-05_09_25.jpg",
+  "3-05_09_25.jpg",
+  "4-05_09_25.jpg",
+
+  "1-07_09_25.jpg",
+
+  "1-10_09_25.jpg",
+  "2-10_09_25.jpg",
+
+  "1-15_09_25.jpg",
+  "2-15_09_25.jpg",
+
+  "1-16_09_25.jpg",
+
+  "1-22_09_25.jpg",
+  "1-23_09_25.jpg",
+
+  "1-26_09_25.jpg",
+
+  // 2025-10
+  "1-12_10_25.jpg",
+  "1-19_10_25.jpg",
+  "2-19_10_25.jpg",
+  "3-19_10_25.jpg",
+  "4-19_10_25.jpg",
+
+  "1-29_10_25.jpg",
+  "2-29_10_25.jpg",
+
+  // 2025-11
+  "1-18_11_25.jpg",
+  "2-18_11_25.jpg",
+  "1-19_11_25.jpg",
+
+  "1-23_11_25.jpg",
+
+  "1-27_11_25.jpg",
+  "2-27_11_25.jpg",
+  "3-27_11_25.jpg",
+  "4-27_11_25.jpg",
+  "5-27_11_25.jpg",
+  "6-27_11_25.jpg",
+
+  "1-28_11_25.jpg",
+  "2-28_11_25.jpg",
+
+  // 2026-01
+  "1-02_01_26.jpg",
+  "2-02_01_26.jpg",
+  "3-02_01_26.jpg",
+  "4-02_01_26.jpg",
+
+  "1-08_01_26.jpg",
+  "2-08_01_26.jpg",
+
+  // 2026-03
+  "1-20_03_26.jpg",
+
+  // 2026-04
+  "1-26_04_26.jpg"
+];
+
+const gallery = document.getElementById('gallery');
+
+images.forEach(src => {
+  const img = document.createElement('img');
+  img.src = "/drawings/" + src;
+
+  img.addEventListener('click', () => {
+    openImageWindow(src);
+  });
+
+  gallery.appendChild(img);
+});
+
+function openImageWindow(src) {
+  const win = document.createElement('div');
+  win.className = 'draggable-window';
+  win.style.zIndex = highestZ++;
+
+  const header = document.createElement('header');
+  header.textContent = 'drawing';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✖';
+  closeBtn.onclick = () => win.remove();
+
+  header.appendChild(closeBtn);
+  win.appendChild(header);
+
+  const content = document.createElement('div');
+  content.className = 'content';
+  content.style.padding = '0'; // remove inner spacing
+
+  const img = new Image();
+  img.src = "/drawings/" + src;
+
+  img.style.display = 'block';
+
+  content.appendChild(img);
+  win.appendChild(content);
+  document.body.appendChild(win);
+
+  // initial position
+  let pos = { left: 200, top: 200 };
+  win.style.left = pos.left + 'px';
+  win.style.top = pos.top + 'px';
+
+  // 🔥 KEY PART: resize window based on image
+  img.onload = () => {
+    const maxW = window.innerWidth * 0.8;
+    const maxH = window.innerHeight * 0.8;
+
+    let w = img.naturalWidth;
+    let h = img.naturalHeight;
+
+    const scale = Math.min(maxW / w, maxH / h, 1);
+
+    const finalW = w * scale;
+    const finalH = h * scale;
+
+    win.style.width = finalW + 'px';
+    win.style.height = (finalH + 30) + 'px'; // + header height
+
+    img.style.width = '100%';
+    img.style.height = 'auto';
+  };
+
+  // drag logic (unchanged)
+  let offsetX = 0, offsetY = 0, dragging = false;
+
+  header.onmousedown = (e) => {
+    dragging = true;
+    offsetX = e.clientX - pos.left;
+    offsetY = e.clientY - pos.top;
+
+    document.onmousemove = (ev) => {
+      if (!dragging) return;
+      pos.left = ev.clientX - offsetX;
+      pos.top = ev.clientY - offsetY;
+      win.style.left = pos.left + 'px';
+      win.style.top = pos.top + 'px';
+    };
+
+    document.onmouseup = () => {
+      dragging = false;
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
+
+  // bring to front
+  win.addEventListener('mousedown', () => {
+    win.style.zIndex = highestZ++;
+  });
+}
+// connect peel AFTER DOM is ready
+const pagePeel = document.getElementById('page-peel');
+if (pagePeel) {
+  pagePeel.addEventListener('click', openGallery);
+}
 </script>
 
 
